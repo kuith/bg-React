@@ -1,7 +1,11 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
 
-// https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
-})
+    plugins: [react()],
+    test: {
+        globals: true, // Esto asegura que `expect` y otras funciones estén disponibles globalmente
+        environment: "jsdom", // Esto simula el DOM para las pruebas
+        setupFiles: "src/setupTests.js", // Asegúrate de que setupTests.js esté configurado
+    },
+});
