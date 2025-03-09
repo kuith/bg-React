@@ -1,0 +1,38 @@
+src/
+│
+├── components/                 # Componentes reutilizables
+│   ├── Header/                 # Barra de navegación
+│   │   ├── Header.js           # Componente de la barra de navegación
+│   │   └── Header.css          # Estilos específicos para la barra
+│   │
+│   ├── Footer/                 # Pie de página
+│   │   ├── Footer.js           # Componente del pie de página
+│   │   └── Footer.css          # Estilos específicos para el pie
+│   │
+│   └── MainContent/            # Contenido principal
+│       ├── MainContent.js      # Componente de la estructura principal
+│       └── MainContent.css     # Estilos específicos para el contenido principal
+│
+├── pages/                      # Vistas o páginas completas
+│   ├── Home/                   # Página de inicio
+│   │   ├── Home.js             # Componente de la página
+│   │   └── Home.css            # Estilos específicos de la página
+│   │
+│   ├── Players/                # Página de jugadores
+│   │   ├── PlayersList.js      # Componente de lista de jugadores
+│   │   └── PlayersList.css     # Estilos específicos de la página
+│   │
+│   └── NotFound/               # Página 404
+│       ├── NotFound.js         # Componente de la página de error
+│       └── NotFound.css        # Estilos específicos de la página
+│
+├── utils/                      # Utilidades y funciones comunes
+│   ├── api.js                  # Funciones para consumir la API
+│   └── helpers.js              # Funciones generales (por ejemplo, formateo de fechas)
+│
+├── hooks/                      # Hooks personalizados
+│   └── usePlayerRole.js        # Hook para obtener el rol del jugador
+│
+├── App.js                      # Componente principal de la app (rutas y estructura general)
+├── App.css                     # Estilos globales
+└── index.js                    # Entrada del proyecto (renderiza App)

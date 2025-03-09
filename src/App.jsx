@@ -1,13 +1,13 @@
 import './App.css'
 import React from "react";
-
+import Header from './components/header/header';
 
 function App() {
 
     return (
-        
-            <h2>Datos de la API</h2>
-
+        <>
+            <Header />
+        </>
     );
 
 }
