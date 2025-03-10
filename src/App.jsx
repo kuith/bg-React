@@ -1,12 +1,18 @@
 import './App.css'
-import React from "react";
+import Container from "@mui/material/Container";
 import Header from './components/header/header';
+import MainContent from './components/mainContent/mainContent';   
+import Footer from './components/footer/footer';    
 
 function App() {
 
     return (
         <>
-            <Header />
+            <Container maxWidth="xl">
+                <Header />
+                <MainContent />
+                <Footer />
+            </Container>
         </>
     );
 
