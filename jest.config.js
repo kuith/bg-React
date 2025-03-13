@@ -1,4 +1,10 @@
 export default {
-    testEnvironment: "jsdom",
+    testEnvironment: "jest-environment-jsdom",
     setupFilesAfterEnv: ["<rootDir>/src/setupTests.js"],
+    transform: {
+        "^.+\\.(js|jsx)$": "babel-jest",
+    },
+    moduleNameMapper: {
+        "\\.css$": "identity-obj-proxy", // Simula archivos CSS
+    }
 };

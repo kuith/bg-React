@@ -11,35 +11,41 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 const pages = [
-  { name: "Jugadores", id: "players" },
-  { name: "Autores", id: "authors" },
-  { name: "Juegos", id: "games" },
-  { name: "Partidas", id: "matches" },
-  { name: "Login", id: "login" },
+    { name: "Jugadores", id: "players", path: "/players" },
+    { name: "Autores", id: "authors", path: "/authors" },
+    { name: "Juegos", id: "games", path: "/games" },
+    { name: "Partidas", id: "matches", path: "/matches" },
+    { name: "Login", id: "login", path: "/log" },
+    { name: "Home", id: "Home", path: "/" },
 ];
 
 const NavList = ({ ...props }) => {
     return (
-      <Stack
-        overflow="auto"
-        direction={{ xs: "column", sm: "row" }}
-        gap={3}
-        ml={{ xs: 3, sm: 0 }}
-        mt={{ xs: 3, sm: 0 }}
-        width={{ xs: "150px", sm: "initial" }}
-        {...props}
-      >
-        {pages.map(page => (
-          <Link
-            key={page.id}
-            sx={{
-              color: { xs: "primary", sm: "white" },
-            }}
-          >
-            {page.name}
-          </Link>
-        ))}
-      </Stack>
+        <Stack
+            overflow="auto"
+            direction={{ xs: "column", sm: "row" }}
+            gap={3}
+            ml={{ xs: 3, sm: 0 }}
+            mt={{ xs: 3, sm: 0 }}
+            width={{ xs: "1100%", sm: "auto" }}
+            {...props}
+        >
+            {pages.map((page) => (
+              <Link
+                  component="a"
+                  underline="none"
+                  key={page.id}
+                  href={page.path}
+                    sx={{
+                      color: { xs: "primary", sm: "white" },
+                      display: "inline-block",
+                      padding: "10px 20px",
+                    }}
+                >
+                {page.name}
+                </Link>
+            ))}
+        </Stack>
     );
   };
 
@@ -78,21 +84,21 @@ const NavList = ({ ...props }) => {
 
   const Header = () => {
     return (
-      <AppBar>
-        <Container>
-          <Toolbar>
-            <Stack
-              direction="row"
-              justifyContent="space-between"
-              alignItems="center"
-              width="100%"
-            >
-              <Typography variant="h6">Juegos de Mesa</Typography>
-              <Nav />
-            </Stack>
-          </Toolbar>
-        </Container>
-      </AppBar>
+        <AppBar position="static">
+            <Container maxWidth="lg">
+                <Toolbar>
+                    <Stack
+                        direction="row"
+                        justifyContent="space-between"
+                        alignItems="center"
+                        width="100%"
+                    >
+                        <Typography variant="h6">Juegos de Mesa</Typography>
+                        <Nav />
+                    </Stack>
+                </Toolbar>
+            </Container>
+        </AppBar>
     );
   };
 export default Header;

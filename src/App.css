@@ -1,0 +1,19 @@
+/* Para navegadores basados en WebKit (Chrome, Edge, Safari) */
+/* ::-webkit-scrollbar {
+  display: none;
+} */
+body {
+    font-family: 'Roboto', sans-serif;
+/*     scrollbar-width: none; /* Para Firefox
+    -ms-overflow-style: none; /* Para Internet Explorer */
+}
+
+.img-portada {
+    width: 90%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.pruebas {
+    background-color: aqua;
+}
