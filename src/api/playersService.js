@@ -24,6 +24,7 @@ export {
     getMatchesWonByPlayer,
 }
 
+
 /* uso en un componente
 import { useEffect, useState } from "react";
 import { getPlayers } from "../api/playersService";
@@ -51,3 +52,21 @@ const PlayersList = () => {
 
 export default PlayersList;
 */
+/* CON USEDATA
+import useData from "../hooks/useData";
+
+const PlayersList = () => {
+    const { data: players, loading, error } = useData("/players/");
+
+    if (loading) return <p>Cargando...</p>;
+    if (error) return <p>Error: {error.message}</p>;
+
+    return (
+        <ul>
+            {players.map((player) => (
+                <li key={player.id}>{player.nombre}</li>
+            ))}
+        </ul>
+    );
+};*/
+

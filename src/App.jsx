@@ -1,16 +1,15 @@
-import './App.css';
+import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Box, CssBaseline, Container } from "@mui/material";
-import Header from "./components/header/header"
-import Footer from "./components/footer/footer";
-import Home from "./components/mainContent/home";
+import Header from "./views/header/header";
+import Footer from "./views/footer/footer";
+import Home from "./components/home";
 
-import Players from "./components/mainContent/players";
-import Authors from "./components/mainContent/authors";
-import Games from "./components/mainContent/games";
-import Matches from "./components/mainContent/matches";
-import Log from "./components/mainContent/log";
-
+import Players from "./views/mainContent/players-container";
+import Authors from "./components/authors/authors";
+import Games from "./components/games/games";
+import Matches from "./components/matches/matches";
+import Log from "./components/adm/log";
 
 function App() {
     return (
@@ -53,7 +52,6 @@ function App() {
             </Box>
         </BrowserRouter>
     );
-
 }
 
-export default App
+export default App;
