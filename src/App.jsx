@@ -9,7 +9,7 @@ import Players from "./views/mainContent/players-container";
 import Authors from "./components/authors/authors";
 import Games from "./components/games/games";
 import Matches from "./components/matches/matches";
-import Log from "./components/adm/log";
+import Dashboardcontainer from "./views/mainContent/dashboard-container";
 
 function App() {
     return (
@@ -38,7 +38,11 @@ function App() {
                         <Route exact path="/authors" element={<Authors />} />
                         <Route exact path="/games" element={<Games />} />
                         <Route exact path="/matches" element={<Matches />} />
-                        <Route exact path="/log" element={<Log />} />
+                        <Route
+                            exact
+                            path="/Dasboard"
+                            element={<Dashboardcontainer />}
+                        />
                         {/* <Route exact path="/grupo/nuevoGrupo" component={NuevoGrupo} /> */}
                         {/* <Route
                                 path="/grupos/:grupoId"

@@ -15,8 +15,7 @@ const pages = [
     { name: "Autores", id: "authors", path: "/authors" },
     { name: "Juegos", id: "games", path: "/games" },
     { name: "Partidas", id: "matches", path: "/matches" },
-    { name: "Login", id: "login", path: "/log" },
-    { name: "Home", id: "Home", path: "/" },
+    { name: "Dashboard", id: "dashboard", path: "/Dasboard" },
 ];
 
 const NavList = ({ ...props }) => {
