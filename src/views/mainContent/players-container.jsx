@@ -1,14 +1,23 @@
 import React from "react";
-import { usePlayersList } from "../../hooks/players-data";
+
+//import { getAllPlayers } from "../../hooks/use-players.jsx";
 import PlayersTable from "../../components/players/players-table";
+import {getPlayers} from "../../api/playersService";
 
 const PlayersContainer = () => {
-    const { players, loading, error } = usePlayersList(); // Usamos el hook aquí
+    const players = getPlayers();
+    console.log(players);
 
-    if (loading) return <p>Cargando...</p>;
-    if (error) return <p>Error: {error.message}</p>;
+    //if (loading) return <p>Cargando...</p>;
+    //if (error) return <p>Error: {error.message}</p>;
 
-    return <PlayersTable players={players} />; // Pasamos los jugadores a Players como props
+    return (
+        <>
+            {/* <PlayersTable players={players} /> */}
+            <h1>Players</h1>
+        </>
+    );
 };
 
 export default PlayersContainer;
+

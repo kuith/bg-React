@@ -1,3 +1,4 @@
+
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Box, CssBaseline, Container } from "@mui/material";
@@ -45,11 +46,11 @@ function App() {
                         />
                         {/* <Route exact path="/grupo/nuevoGrupo" component={NuevoGrupo} /> */}
                         {/* <Route
-                                path="/grupos/:grupoId"
-                                render={({ match }) => (
-                                    <GrupoContainer id={match.params.grupoId} />
-                                )}
-                            /> */}
+                            path="/grupos/:grupoId"
+                            render={({ match }) => (
+                                <GrupoContainer id={match.params.grupoId} />
+                            )}
+                        /> */}
                     </Routes>
                 </Container>
                 <Footer />
