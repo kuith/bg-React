@@ -1,4 +1,4 @@
-/* import { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { api } from "../api/api"; // Asegúrate de que esta ruta sea correcta
 
 const UseData = (endpoint, params = {}) => {

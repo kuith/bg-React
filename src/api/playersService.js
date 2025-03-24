@@ -1,31 +1,53 @@
 import { api } from "../api/api";
 
-const getPlayers = () => api.get("/players/");
-const getPlayerById = (id) => api.get(`/players/${id}`);
-const createPlayer = (playerData) => api.post("/players", playerData);
-const updatePlayer = (id, playerData) => api.put(`/players/${id}`, playerData);
-const deletePlayer = (id) => api.del(`/players/${id}`);
-const getPlayerByName = (name) => api.get(`/players/name/${name}`);
-const getPlayerByMail = (mail) => api.get(`/players/mail/${mail}`);
-const getPlayerByRol = (rol) => api.get(`/players/rol/${rol}`);
-const getPlayersByGame = (gameId) => api.get(`/players/games/${gameId}/players`);
-const getMatchesWonByPlayer = (playerId) => api.get(`/players/${playerId}/matches/won`);
+// Obtener el listado completo de jugadores
+export const getAllPlayers = async () => {
+    const response = await api.get("/players");
+    return response.data; // Suponiendo que los datos están en `response.data`
+};
 
-export {
-    getPlayers,
-    getPlayerById,
-    createPlayer,
-    updatePlayer,
-    deletePlayer,
-    getPlayerByName,
-    getPlayerByMail,
-    getPlayerByRol,
-    getPlayersByGame,
-    getMatchesWonByPlayer,
+// Buscar un jugador por ID
+export const getPlayerById = async (id) => {
+    const response = await api.get(`/players/${id}`);
+    return response.data;
+};
+
+// Buscar jugadores por nombre
+export const searchPlayersByName = async (name) => {
+    const response = await api.get("/players", { params: { search: name } });
+    return response.data;
+};
+
+// Buscar jugadores por rol
+export const searchPlayersByRol = async (rol) => {
+    const response = await api.get(`/players/role/${rol}`);
+    return response.data;
+};
+
+// Buscar jugadores por email
+export const searchPlayersByEmail = async (email) => {
+    const response = await api.get(`/players/email/${email}`);
+    return response.data;
+};
+
+export const getMatchesWonByPlayer = async (playerId) => {
+    const response = await api.get(`/players/${playerId}/matches/won`);
+    return response.data;
+};
+
+export const getPlayersByGame = async (gameId) => {
+    const response = await api.get(`/players/games/${gameId}/players`);
+    return response.data;
 }
 
 
-/* uso en un componente
+export const createPlayer = (playerData) => api.post("/players", playerData);
+export const updatePlayer = (id, playerData) => api.put(`/players/${id}`, playerData);
+export const deletePlayer = (id) => api.del(`/players/${id}`);
+
+
+
+ /* uso en un componente
 import { useEffect, useState } from "react";
 import { getPlayers } from "../api/playersService";
 
