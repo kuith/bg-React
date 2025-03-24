@@ -1,5 +1,9 @@
 import useData from "./useData";
 
+/* |`POST`  |`/api/players/`        |Create a player                                 |#
+|`DELETE`|`/api/players/{id}`       |Delete a player by id                           |`{id}`
+|`PATCH` |`/api/players/{id}`       |Update a player by id                           |`{id, data to update}` */
+
 // Función para obtener todos los jugadores
 const usePlayersList = () => {
     const { data: players, loading, error } = useData("/players/");
