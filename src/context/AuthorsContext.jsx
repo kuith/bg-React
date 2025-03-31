@@ -1,0 +1,34 @@
+import React, { createContext, useState, useEffect } from "react";
+import { getAllAuthors } from "../api/authorsService";
+
+export const AuthorsContext = createContext();
+
+export const AuthorsProvider = ({ children }) => {
+    const [authors, setAuthors] = useState([]); // Estado inicial vacío
+    const [loading, setLoading] = useState(true); // Estado de carga
+
+    useEffect(() => {
+        const fetchAuthors = async () => {
+            try {
+                const data = await getAllAuthors(); // Llama al servicio
+                console.log("Autores obtenidos en el contexto:", data); // Verifica los datos
+                setAuthors(data); // Actualiza el estado con los datos obtenidos
+            } catch (error) {
+                console.error(
+                    "Error al cargar autores en el contexto:",
+                    error
+                );
+            } finally {
+                setLoading(false); // Finaliza el estado de carga
+            }
+        };
+
+        fetchAuthors();
+    }, []);
+
+    return (
+        <AuthorsContext.Provider value={{ authors, loading }}>
+            {children}
+        </AuthorsContext.Provider>
+    );
+};

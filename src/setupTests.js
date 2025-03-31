@@ -1,4 +1,18 @@
 /* eslint-disable no-unused-vars */
-import "@testing-library/jest-dom"; // Extiende expect con funciones como toBeInTheDocument
-import "@testing-library/jest-dom";
+import "@testing-library/jest-dom"; 
 
+import { TextEncoder, TextDecoder } from "util";
+
+global.TextEncoder = TextEncoder;
+global.TextDecoder = TextDecoder;
+
+// Mock de import.meta.env
+global.importMetaEnv = {
+  VITE_BASE_URL: "/images/",
+};
+
+Object.defineProperty(global, "import.meta", {
+  value: {
+    env: global.importMetaEnv,
+  },
+});

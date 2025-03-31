@@ -1,21 +1,10 @@
+// filepath: [home.jsx](http://_vscodecontentref_/2)
 import { Box } from "@mui/material";
-const Home = () => {
-  return (
-      /*       <Box 
-      display="flex" 
-      justifyContent="center" 
-      alignItems="center" 
-    > */
-     
-          <img
-              className="img-portada"
-              src={`${import.meta.env.BASE_URL}images/portada01.jpg`}
-              alt="Portada"
-          />
-    
-      /*         </Box> */
-  );
 
+const Home = () => {
+    const baseUrl = import.meta.env.VITE_BASE_URL || "/images/";
+    const src = `${baseUrl}portada01.jpg`;
+    return <img className="img-portada" src={src} alt="Portada" />;
 };
 
 export default Home;

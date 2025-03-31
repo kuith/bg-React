@@ -12,12 +12,12 @@ const Log = () => {
                 alert("Formulario enviado");
             }}
         >
-            <Grid sx={{ backgroundColor: "lightblue", padding: 2 }}>
+            <Grid size={{ backgroundColor: "lightblue", padding: 2 }}>
                 <Grid
                     container
                     spacing={2}
                     direction="column"
-                    sx={{
+                    size={{
                         justifyContent: "center",
                         alignItems: "center",
                     }}
@@ -36,8 +36,8 @@ const Log = () => {
                     />
                 </Grid>
                 {/* Botones */}
-                <Grid container spacing={2} xs={12} marginTop={3}>
-                    <Grid item xs={6}>
+                <Grid container spacing={2} size={12} marginTop={3}>
+                    <Grid size={6}>
                         <Button
                             fullWidth
                             variant="contained"
@@ -47,7 +47,7 @@ const Log = () => {
                             Enviar
                         </Button>
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid size={6}>
                         <Button
                             fullWidth
                             variant="outlined"
