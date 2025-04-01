@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import "@testing-library/jest-dom"; 
+import "@testing-library/jest-dom";
 
 import { TextEncoder, TextDecoder } from "util";
 
@@ -8,11 +7,14 @@ global.TextDecoder = TextDecoder;
 
 // Mock de import.meta.env
 global.importMetaEnv = {
-  VITE_BASE_URL: "/images/",
+    VITE_BASE_URL: "/images/",
 };
 
-Object.defineProperty(global, "import.meta", {
-  value: {
-    env: global.importMetaEnv,
-  },
+Object.defineProperty(global, "import", {
+    writable: true,
+    value: {
+        meta: {
+            env: global.importMetaEnv,
+        },
+    },
 });

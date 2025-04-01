@@ -1,0 +1,29 @@
+import React from "react"; // Importa React explícitamente
+import { render } from "@testing-library/react";
+import App from "./App";
+
+jest.mock("./components/home", () => ({
+    __esModule: true,
+    default: () => <div>Mocked Home Component</div>,
+}));
+
+// Mock de import.meta.env
+beforeAll(() => {
+    global.importMetaEnv = {
+        VITE_BASE_URL: "/images/",
+    };
+
+    Object.defineProperty(global, "import", {
+        writable: true,
+        value: {
+            meta: {
+                env: global.importMetaEnv,
+            },
+        },
+    });
+});
+
+test("renders App component", () => {
+    const { getByText } = render(<App />);
+    expect(getByText("Mocked Home Component")).toBeInTheDocument();
+});

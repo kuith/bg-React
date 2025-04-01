@@ -87,17 +87,48 @@ describe("gamesService", () => {
     });
     
     test('getGamesById debe devolver un juego por ID', async () => {
-            const mockGame = { id: 1,
-                nombre: "Azul",
-                baseExpansion: "base",
-                juegoBase: null,
-                tipo: "abstracto",};
-            api.get.mockResolvedValue({ data: mockGame });
-    
-            const game = await getGamesById(1);
-            expect(game).toEqual(mockGame);
-            expect(api.get).toHaveBeenCalledWith('/games/id/1');
-        });
+        const mockGame = { id: 1,
+            nombre: "Azul",
+            baseExpansion: "base",
+            juegoBase: null,
+            tipo: "abstracto",};
+        api.get.mockResolvedValue({ data: mockGame });
+
+        const game = await getGamesById(1);
+        expect(game).toEqual(mockGame);
+        expect(api.get).toHaveBeenCalledWith('/games/id/1');
+    });
+
+    test("getGamesName debe devolver un juego por Nombre", async () => {
+        const mockGame = {
+            id: 1,
+            nombre: "Azul",
+            baseExpansion: "base",
+            juegoBase: null,
+            tipo: "abstracto",
+        };
+        api.get.mockResolvedValue({ data: mockGame });
+
+        const game = await getGamesByName("Azul");
+        expect(game).toEqual(mockGame);
+        expect(api.get).toHaveBeenCalledWith("/games/name/Azul");
+    });
+
+    test("getGamesByYear debe devolver un juego por año de publicación", async () => {
+        const mockGame = {
+            id: 1,
+            nombre: "Azul",
+            baseExpansion: "base",
+            juegoBase: null,
+            tipo: "abstracto",
+            anioPublicacion: 2025,
+        };
+        api.get.mockResolvedValue({ data: mockGame });
+
+        const game = await getGamesByYear(2005);
+        expect(game).toEqual(mockGame);
+        expect(api.get).toHaveBeenCalledWith("/games/year/2005");
+    });
 
 
 });
