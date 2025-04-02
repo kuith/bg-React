@@ -73,7 +73,7 @@ export const getGamesByPriceRange = async (minPrice, maxPrice) => {
 export const getGamesByUnderPrice = async (price) => {
     try {
         const response = await api.get(
-            `/games/priceRange/${price}`
+            `/games/underPrice/${price}`
         );
         return response.data;
     } catch (error) {
