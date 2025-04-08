@@ -9,12 +9,16 @@ const PlayersContainer = () => {
     const { players, loading } = useContext(PlayersContext);
     console.log(players);
 
+    function onClickForMatches() {
+        console.log("Por aqui");
+    }
+
     if (loading) return <p>Cargando...</p>;
     //if (error) return <p>Error: {error.message}</p>;
 
     return (
         <>
-            {<PlayersTable players={players} />}
+            {<PlayersTable players={players} onClick={onClickForMatches} />}
         </>
     );
 };
