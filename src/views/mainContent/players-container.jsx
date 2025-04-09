@@ -6,7 +6,7 @@ import PlayersTable from "../../components/players/players-table";
 
 
 const PlayersContainer = () => {
-    const { players, loading } = useContext(PlayersContext);
+    const { players, loading, onClick } = useContext(PlayersContext);
     console.log(players);
 
     function onClickForMatches() {
@@ -18,7 +18,7 @@ const PlayersContainer = () => {
 
     return (
         <>
-            {<PlayersTable players={players} onClick={onClickForMatches} />}
+            {<PlayersTable players={players} onClick={() => onClickForMatches()}/>}
         </>
     );
 };

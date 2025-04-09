@@ -7,6 +7,7 @@ const PlayersTable = ({ players, onClick }) => {
         <>
             <TableCreator
                 data={players}
+                onClick={onClick} 
                 hiddenColumns={[
                     "id",
                     "fechaRegistro",
@@ -14,7 +15,7 @@ const PlayersTable = ({ players, onClick }) => {
                     "partidas",
                 ]}
             />
-            <PlayerMatchesTable matches={players.partidas} onClick={onClick} />
+            <PlayerMatchesTable matches={players.partidas}/>
         </>
     );
 };

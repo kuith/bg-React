@@ -1,9 +1,9 @@
 import React from "react";
 import TableCreator from "../../utils/table-creator";
 
-const PlayersMatchesTable = ({ matches, onClick }) => {
+const PlayersMatchesTable = ({ matches}) => {
     return (
-        <TableCreator data={matches} hiddenColumns={['id']} onClick={onClick} />
+        <TableCreator data={matches} hiddenColumns={['id']} />
     );
 };
 
