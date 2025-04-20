@@ -1,4 +1,4 @@
-import UseData from "./useData.js";
+import UseData from "./useData.old.js";
 
 const initialPlayers = () => {
     const { data: players, loading, error } = UseData("/players/");

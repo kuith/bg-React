@@ -1,25 +1,56 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 
 //import { getAllPlayers } from "../../hooks/use-players.jsx";
 import { PlayersContext } from "../../context/PlayersContext";
 import PlayersTable from "../../components/players/players-table";
+import PlayerMatchesTable from "../../components/players/players-matches-table";
+import { getMatchesByPlayer } from "../../api/matchesService";
+import { processMatches } from "../../utils/processors";
 
+import Stack from "@mui/material/Stack";
+import Box from "@mui/material/Box";
 
 const PlayersContainer = () => {
-    const { players, loading, onClick } = useContext(PlayersContext);
-    console.log(players);
+    const { players, loading } = useContext(PlayersContext);
+    const [matches, setMatches] = useState([]); // Estado para las partidas
+    const [loadingMatches, setLoadingMatches] = useState(false); // Estado de carga de partidas
+    const [error, setError] = useState(null); // Estado de error
 
-    function onClickForMatches() {
-        console.log("Por aqui");
-    }
+    const onClickForMatches = async (jugadorId) => {
+        console.log("ID del jugador seleccionado:", jugadorId);
+        setLoadingMatches(true);
+        setError(null);
+
+        try {
+            const data = await getMatchesByPlayer(jugadorId);
+            const processedData = processMatches(data);
+            setMatches(processedData);
+        } catch (error) {
+            setError("No se pudieron cargar las partidas.");
+        } finally {
+            setLoadingMatches(false);
+        }
+    };
 
     if (loading) return <p>Cargando...</p>;
-    //if (error) return <p>Error: {error.message}</p>;
 
     return (
-        <>
-            {<PlayersTable players={players} onClick={() => onClickForMatches()}/>}
-        </>
+        <Box sx={{ width: "100%" }}>
+            <Stack spacing={2}>
+                <PlayersTable
+                    players={players}
+                    onClick={(id) => onClickForMatches(id)}
+                    buttonVisible
+                    labelButton
+                    />
+                <PlayerMatchesTable
+                    matches={matches}
+                    loading={loadingMatches}
+                    error={error}
+                />
+                
+            </Stack>
+        </Box>
     );
 };
 

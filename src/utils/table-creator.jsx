@@ -8,7 +8,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 
-const TableCreator = ({ data, hiddenColumns = [], onClick }) => {
+const TableCreator = ({ data, hiddenColumns = [], onClick, buttonVisible, labelButton }) => {
     if (!data || data.length === 0) return <p>No hay datos disponibles.</p>;
     const headers = Object.keys(data[0]).filter(
         (header) => !hiddenColumns.includes(header)
@@ -35,11 +35,16 @@ const TableCreator = ({ data, hiddenColumns = [], onClick }) => {
                             <TableCell key={colIndex}>{item[header]}</TableCell>
                         ))}
                         {/* Botón agregado como una celda separada */}
-                        <TableCell>
-                            <Button variant="outlined" onClick={onClick}>
-                                Partidas
-                            </Button>
-                        </TableCell>
+                        {buttonVisible && (
+                            <TableCell>
+                                <Button
+                                    variant="outlined"
+                                    onClick={() => onClick(item.id)}
+                                >
+                                    {labelButton}
+                                </Button>
+                            </TableCell>
+                        )}
                     </TableRow>
                 ))}
             </TableBody>

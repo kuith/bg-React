@@ -1,6 +1,5 @@
 import React from "react";
 import TableCreator from "../../utils/table-creator";
-import PlayerMatchesTable from "./players-matches-table";
 
 const PlayersTable = ({ players, onClick }) => {
     return (
@@ -14,8 +13,10 @@ const PlayersTable = ({ players, onClick }) => {
                     "partidasGanadas",
                     "partidas",
                 ]}
+                buttonVisible
+                labelButton={"Ver Partidas"}
             />
-            <PlayerMatchesTable matches={players.partidas}/>
+
         </>
     );
 };

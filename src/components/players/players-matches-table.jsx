@@ -1,9 +1,15 @@
 import React from "react";
-import TableCreator from "../../utils/table-creator";
+import TablePlayerMatches from "../../utils/table-player-matches";
 
-const PlayersMatchesTable = ({ matches}) => {
+const PlayersMatchesTable = ({ matches, loading, error }) => {
+    if (loading) return <p>Cargando partidas...</p>;
+    if (error) return <p>Error: {error}</p>;
+    if (!matches || matches.length === 0)
+        return <p>No hay partidas disponibles.</p>;
+
+
     return (
-        <TableCreator data={matches} hiddenColumns={['id']} />
+        <TablePlayerMatches data={matches} />
     );
 };
 

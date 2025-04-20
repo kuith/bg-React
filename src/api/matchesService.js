@@ -39,10 +39,17 @@ export const getMatchesWinnersRanking = async () => {
 
 export const getMatchesByPlayer = async (jugadorId) => {
     try {
+        //console.log("Llamando a la API con jugadorId:", jugadorId);
         const response = await api.get(`/matches/player/${jugadorId}`);
-        return response.data;
+        //console.log("Respuesta completa de la API:", response); // Verifica la estructura completa
+
+        // Si la respuesta es un array directamente
+        const data = Array.isArray(response.data) ? response.data : response;
+        console.log("Datos procesados:", data); // Verifica los datos procesados
+        return data;
     } catch (error) {
         console.error("Error las partidas de un jugador:", error);
+        return [];
     }
 };
 
@@ -51,7 +58,10 @@ export const getGamesByPlayer = async (jugadorId) => {
         const response = await api.get(`/matches/player/${jugadorId}`);
         return response.data;
     } catch (error) {
-        console.error("Error los juegos a los que ha jugado un jugador:", error);
+        console.error(
+            "Error los juegos a los que ha jugado un jugador:",
+            error
+        );
     }
 };
 
@@ -74,5 +84,6 @@ export const getWinnersByGame = async (juegoId) => {
 };
 
 export const createMatch = (matchData) => api.post("/matches/", matchData);
-export const updateMatch = (id, matchData) => api.put(`/matches/${id}`, matchData);
+export const updateMatch = (id, matchData) =>
+    api.put(`/matches/${id}`, matchData);
 export const deleteMatch = (id) => api.del(`/matches/${id}`);
