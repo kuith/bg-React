@@ -19,7 +19,7 @@ const TablePlayerMatches = ({data}) => {
 
     return (
         <TableContainer component={Paper}>  
-            <Table sx={{ minWidth: 650 }} aria-label="PArtidas del jugador">
+            <Table sx={{ minWidth: 650 }} aria-label="Partidas del jugador">
                 <TableHead>
                     <TableRow>
                         <TableCell>Juego</TableCell>

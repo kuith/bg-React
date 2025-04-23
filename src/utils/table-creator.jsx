@@ -52,7 +52,7 @@ const TableCreator = ({ data, hiddenColumns = [], onClick, buttonVisible, labelB
     };
 
     return (
-        <TableContainer component={Paper}>
+        <TableContainer component={Paper} sx={{ width: "100%" }}>
             <Table>
                 {headersTable()}
                 {rowsTable()}

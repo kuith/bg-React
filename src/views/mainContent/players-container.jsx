@@ -1,9 +1,10 @@
 import React, { useContext, useState } from "react";
+import Typography from "@mui/material/Typography";
 
 //import { getAllPlayers } from "../../hooks/use-players.jsx";
 import { PlayersContext } from "../../context/PlayersContext";
 import PlayersTable from "../../components/players/players-table";
-import PlayerMatchesTable from "../../components/players/players-matches-table";
+import PlayerMatchesTable from "./mainPlayers/players-matches-table";
 import { getMatchesByPlayer } from "../../api/matchesService";
 import { processMatches } from "../../utils/processors";
 
@@ -37,18 +38,20 @@ const PlayersContainer = () => {
     return (
         <Box sx={{ width: "100%" }}>
             <Stack spacing={2}>
+                <Typography variant="h5" align="center" gutterBottom>
+                    Jugadores
+                </Typography>
                 <PlayersTable
                     players={players}
                     onClick={(id) => onClickForMatches(id)}
                     buttonVisible
                     labelButton
-                    />
+                />
                 <PlayerMatchesTable
                     matches={matches}
                     loading={loadingMatches}
                     error={error}
                 />
-                
             </Stack>
         </Box>
     );
