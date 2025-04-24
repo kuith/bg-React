@@ -3,8 +3,8 @@ import Typography from "@mui/material/Typography";
 
 //import { getAllPlayers } from "../../hooks/use-players.jsx";
 import { PlayersContext } from "../../context/PlayersContext";
-import PlayersTable from "../../components/players/players-table";
-import PlayerMatchesTable from "./mainPlayers/players-matches-table";
+import PlayersTable from "../../components/players/comp-players-table";
+import PlayerMatchesTable from "./mainPlayers/view-table-players-matches";
 import { getMatchesByPlayer } from "../../api/matchesService";
 import { processMatches } from "../../utils/processors";
 
@@ -42,11 +42,14 @@ const PlayersContainer = () => {
                     Jugadores
                 </Typography>
                 <PlayersTable
-                    players={players}
+                    data={players}
                     onClick={(id) => onClickForMatches(id)}
                     buttonVisible
                     labelButton
                 />
+                <Typography variant="h5" align="center" gutterBottom>
+                    Partidas
+                </Typography>
                 <PlayerMatchesTable
                     matches={matches}
                     loading={loadingMatches}
