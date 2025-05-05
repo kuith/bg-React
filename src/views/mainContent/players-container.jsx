@@ -17,7 +17,7 @@ const PlayersContainer = () => {
     const [matches, setMatches] = useState([]);
     const [loadingMatches, setLoadingMatches] = useState(false); 
     const [error, setError] = useState(null);
-    //const [selectedPlayer, setSelectedPlayer] = useState(null);
+    const [selectedPlayer, setSelectedPlayer] = useState();
 
     const onClickForMatches = async (jugadorId) => {
         console.log("ID del jugador seleccionado:", jugadorId);
@@ -26,16 +26,29 @@ const PlayersContainer = () => {
 
         try {
             const data = await getMatchesByPlayer(jugadorId);
-            //const player = await getPlayerById(jugadorId);
             const processedData = processMatches(data);
             setMatches(processedData);
-            //setSelectedPlayer(player);
         } catch (error) {
             setError("No se pudieron cargar las partidas.");
         } finally {
             setLoadingMatches(false);
         }
-    };
+
+        try {
+            // Obtener los datos del jugador
+            const player = await getPlayerById(jugadorId);
+            if (player) {
+                console.log("Datos del jugador obtenidos:", player);
+                setSelectedPlayer(player);
+            } else {
+                console.error("Jugador no encontrado");
+                setError("Jugador no encontrado");
+            }
+            } catch (error) {
+                console.error("Error al obtener el jugador:", error);
+                setError("No se pudo cargar el jugador.");
+            }
+        };
 
     if (loading) return <p>Cargando...</p>;
 
@@ -52,7 +65,8 @@ const PlayersContainer = () => {
                     labelButton
                 />
                 <Typography variant="h5" align="center" gutterBottom>
-                    {/* Partidas de {selectedPlayer?.name} */}
+                    Partidas de{" "}
+                    {selectedPlayer?.name || "ningún jugador seleccionado"}
                 </Typography>
                 <PlayerMatchesTable
                     matches={matches}
