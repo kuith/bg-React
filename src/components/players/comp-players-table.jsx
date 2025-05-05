@@ -5,13 +5,13 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import Button from "@mui/material/Button";
-import { Typography, Box, Container } from "@mui/material";
+import { Box, Container } from "@mui/material";
+import TablaBox from "../../utils/Pieces/tabla-box";
+import TablaButton from "../../utils/Pieces/tabla-button";
 
 const PlayersTable = ({ data, onClick }) => {
-    
+    const columns = ["Nombre", "correo", "rol"];
     const rows = data.map((row, index) => (
-
         <TableRow key={row.id || `row-${index}`}>
             <TableCell colSpan={4} sx={{ padding: 0 }}>
                 <Box
@@ -25,78 +25,19 @@ const PlayersTable = ({ data, onClick }) => {
                         gap: { xs: 1, md: 0 },
                     }}
                 >
+                    {columns.map((item, index) => (
+                        <TablaBox
+                            key={index}
+                            label={item}
+                            value={row[item.toLowerCase()]}
+                        />
+                    ))}
 
-                    {/* Caja para Nombre */}
-                    <Box
-                        sx={{
-                            flex: 1,
-                            minWidth: "0",
-                            marginBottom: { xs: 1, md: 0 },
-                            textAlign: { xs: "center", md: "center" },
-                        }}
-                    >
-                        <Typography variant="body1">
-                            <strong>Nombre:</strong> {row.nombre}
-                        </Typography>
-                    </Box>
-
-                    {/* Caja para Correo */}
-                    <Box
-                        sx={{
-                            flex: 1,
-                            minWidth: "0",
-                            marginBottom: { xs: 1, md: 0 },
-                            textAlign: { xs: "center", md: "center" },
-                        }}
-                    >
-                        <Typography variant="body1">
-                            <strong>Correo:</strong> {row.correo}
-                        </Typography>
-                    </Box>
-
-                    {/* Caja para Rol */}
-                    <Box
-                        sx={{
-                            flex: 1,
-                            minWidth: "0",
-                            marginBottom: { xs: 1, md: 0 },
-                            textAlign: { xs: "center", md: "center" },
-                        }}
-                    >
-                        <Typography variant="body1">
-                            <strong>Rol:</strong> {row.rol}
-                        </Typography>
-                    </Box>
-
-                    {/* Caja para el Botón */}
-                    <Box
-                        sx={{
-                            flex: 1,
-                            minWidth: "0",
-                            textAlign: { xs: "center", md: "center" },
-                        }}
-                    >
-                        <Button
-                            variant="outlined"
-                            onClick={() => onClick(row.id)}
-                            sx={{
-                                fontSize: {
-                                    xs: "0.6rem",
-                                    sm: "0.7rem",
-                                    md: "0.7rem",
-                                },
-                                padding: {
-                                    xs: "2px 4px",
-                                    sm: "3px 6px",
-                                    md: "4px 8px",
-                                },
-                                maxWidth: "100px",
-                                width: "100%",
-                            }}
-                        >
-                            Partidas
-                        </Button>
-                    </Box>
+                    <TablaButton
+                        label="Partidas"
+                        value={row.id}
+                        onClick={onClick}
+                    />
                 </Box>
             </TableCell>
         </TableRow>

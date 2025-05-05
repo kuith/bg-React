@@ -1,5 +1,6 @@
 import { Box } from "@mui/material";
-const TablaButton = (label, value) => {
+import Button from "@mui/material/Button";
+const TablaButton = ({ label, value, onClick }) => {
     return (
         <Box
             sx={{

@@ -7,15 +7,17 @@ import PlayersTable from "../../components/players/comp-players-table";
 import PlayerMatchesTable from "./mainPlayers/view-table-players-matches";
 import { getMatchesByPlayer } from "../../api/matchesService";
 import { processMatches } from "../../utils/processors";
+import { getPlayerById } from "../../api/playersService";
 
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 
 const PlayersContainer = () => {
     const { players, loading } = useContext(PlayersContext);
-    const [matches, setMatches] = useState([]); // Estado para las partidas
-    const [loadingMatches, setLoadingMatches] = useState(false); // Estado de carga de partidas
-    const [error, setError] = useState(null); // Estado de error
+    const [matches, setMatches] = useState([]);
+    const [loadingMatches, setLoadingMatches] = useState(false); 
+    const [error, setError] = useState(null);
+    //const [selectedPlayer, setSelectedPlayer] = useState(null);
 
     const onClickForMatches = async (jugadorId) => {
         console.log("ID del jugador seleccionado:", jugadorId);
@@ -24,8 +26,10 @@ const PlayersContainer = () => {
 
         try {
             const data = await getMatchesByPlayer(jugadorId);
+            //const player = await getPlayerById(jugadorId);
             const processedData = processMatches(data);
             setMatches(processedData);
+            //setSelectedPlayer(player);
         } catch (error) {
             setError("No se pudieron cargar las partidas.");
         } finally {
@@ -48,7 +52,7 @@ const PlayersContainer = () => {
                     labelButton
                 />
                 <Typography variant="h5" align="center" gutterBottom>
-                    Partidas
+                    {/* Partidas de {selectedPlayer?.name} */}
                 </Typography>
                 <PlayerMatchesTable
                     matches={matches}
