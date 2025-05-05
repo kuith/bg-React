@@ -9,27 +9,30 @@ import Button from "@mui/material/Button";
 import { Typography, Box, Container } from "@mui/material";
 
 const PlayersTable = ({ data, onClick }) => {
+    
     const rows = data.map((row, index) => (
+
         <TableRow key={row.id || `row-${index}`}>
             <TableCell colSpan={4} sx={{ padding: 0 }}>
                 <Box
                     display="flex"
-                    flexDirection={{ xs: "column", md: "row" }} // Cambia a columna en pantallas <= 600px
-                    justifyContent="space-evenly" // Distribuye los elementos uniformemente
-                    alignItems="center" // Alinea verticalmente
+                    flexDirection={{ xs: "column", md: "row" }}
+                    justifyContent="space-evenly"
+                    alignItems="center"
                     sx={{
-                        padding: 1, // Reduce el relleno interno
+                        padding: 1,
                         borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                        gap: { xs: 1, md: 0 }, // Espaciado entre elementos
+                        gap: { xs: 1, md: 0 },
                     }}
                 >
+
                     {/* Caja para Nombre */}
                     <Box
                         sx={{
                             flex: 1,
-                            minWidth: "0", // Permite que el contenido se ajuste
+                            minWidth: "0",
                             marginBottom: { xs: 1, md: 0 },
-                            textAlign: { xs: "center", md: "left" },
+                            textAlign: { xs: "center", md: "center" },
                         }}
                     >
                         <Typography variant="body1">
@@ -41,9 +44,9 @@ const PlayersTable = ({ data, onClick }) => {
                     <Box
                         sx={{
                             flex: 1,
-                            minWidth: "0", // Permite que el contenido se ajuste
+                            minWidth: "0",
                             marginBottom: { xs: 1, md: 0 },
-                            textAlign: { xs: "center", md: "left" },
+                            textAlign: { xs: "center", md: "center" },
                         }}
                     >
                         <Typography variant="body1">
@@ -55,9 +58,9 @@ const PlayersTable = ({ data, onClick }) => {
                     <Box
                         sx={{
                             flex: 1,
-                            minWidth: "0", // Permite que el contenido se ajuste
+                            minWidth: "0",
                             marginBottom: { xs: 1, md: 0 },
-                            textAlign: { xs: "center", md: "right" }, // Centrado en pantallas pequeñas, alineado a la derecha en grandes
+                            textAlign: { xs: "center", md: "center" },
                         }}
                     >
                         <Typography variant="body1">
@@ -69,8 +72,8 @@ const PlayersTable = ({ data, onClick }) => {
                     <Box
                         sx={{
                             flex: 1,
-                            minWidth: "0", // Permite que el contenido se ajuste
-                            textAlign: { xs: "center", md: "right" },
+                            minWidth: "0",
+                            textAlign: { xs: "center", md: "center" },
                         }}
                     >
                         <Button
@@ -81,14 +84,14 @@ const PlayersTable = ({ data, onClick }) => {
                                     xs: "0.6rem",
                                     sm: "0.7rem",
                                     md: "0.7rem",
-                                }, // Tamaño de fuente reducido
+                                },
                                 padding: {
                                     xs: "2px 4px",
                                     sm: "3px 6px",
                                     md: "4px 8px",
-                                }, // Relleno interno reducido
-                                maxWidth: "100px", // Limita el ancho máximo del botón
-                                width: "100%", // Asegura que el botón se ajuste al contenedor
+                                },
+                                maxWidth: "100px",
+                                width: "100%",
                             }}
                         >
                             Partidas
