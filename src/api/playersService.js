@@ -16,8 +16,10 @@ export const getAllPlayers = async () => {
 export const getPlayerById = async (id) => {
     try {
         const response = await api.get(`/players/id/${id}`);
-        if (response && response.data) {
-            return response.data;
+        console.log("desde servicio", response);
+        const data = Array.isArray(response.data) ? response.data : response;
+        if (response) {
+            return data;
         } else {
             throw new Error("Datos del jugador no encontrados");
         }

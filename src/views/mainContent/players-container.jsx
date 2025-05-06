@@ -15,9 +15,19 @@ import Box from "@mui/material/Box";
 const PlayersContainer = () => {
     const { players, loading } = useContext(PlayersContext);
     const [matches, setMatches] = useState([]);
-    const [loadingMatches, setLoadingMatches] = useState(false); 
+    const [loadingMatches, setLoadingMatches] = useState(false);
     const [error, setError] = useState(null);
-    const [selectedPlayer, setSelectedPlayer] = useState();
+    const [selectedPlayer, setSelectedPlayer] = useState([]);
+
+    /* const reloadParciales = () => {
+        const parciales = dataStorage.getParciales();
+        setParciales(parciales);
+    }; */
+    const reloadJugador = (jugadorId) => {
+        const player = getPlayerById(jugadorId);
+        setSelectedPlayer(player);
+        console.log("desde container", selectedPlayer);
+    };
 
     const onClickForMatches = async (jugadorId) => {
         console.log("ID del jugador seleccionado:", jugadorId);
@@ -28,13 +38,16 @@ const PlayersContainer = () => {
             const data = await getMatchesByPlayer(jugadorId);
             const processedData = processMatches(data);
             setMatches(processedData);
+            reloadJugador(jugadorId);
+
+
         } catch (error) {
             setError("No se pudieron cargar las partidas.");
         } finally {
             setLoadingMatches(false);
         }
 
-        try {
+        /* try {
             // Obtener los datos del jugador
             const player = await getPlayerById(jugadorId);
             if (player) {
@@ -47,8 +60,8 @@ const PlayersContainer = () => {
             } catch (error) {
                 console.error("Error al obtener el jugador:", error);
                 setError("No se pudo cargar el jugador.");
-            }
-        };
+            }*/
+    };
 
     if (loading) return <p>Cargando...</p>;
 
