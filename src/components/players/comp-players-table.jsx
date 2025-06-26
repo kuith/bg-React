@@ -8,11 +8,13 @@ import Paper from "@mui/material/Paper";
 import { Box, Container } from "@mui/material";
 import TablaBox from "../../utils/Pieces/tabla-box";
 import TablaButton from "../../utils/Pieces/tabla-button";
+import TablaRow from "../../utils/Pieces/tabla-row";
 
 const PlayersTable = ({ data, onClick }) => {
     const columns = ["Nombre", "correo", "rol"];
+    const labelButton = "Partidas";
     const rows = data.map((row, index) => (
-        <TableRow key={row.id || `row-${index}`}>
+        /* <TableRow key={row.id || `row-${index}`}>
             <TableCell colSpan={4} sx={{ padding: 0 }}>
                 <Box
                     display="flex"
@@ -40,7 +42,9 @@ const PlayersTable = ({ data, onClick }) => {
                     />
                 </Box>
             </TableCell>
-        </TableRow>
+        </TableRow> */
+
+        <TablaRow columns={columns} row={row} index={index} labelButon={labelButton} onClick={onClick} key={row.id || `row-${index}`} />
     ));
 
     const totalTable = (

@@ -6,6 +6,12 @@ const processMatches = (matches) => {
     }));
 };
 
+// Para la tabla de jugadores
+const playerColumns = ["Nombre", "Edad", "Puntos"];
+
+// Para la tabla de partidas
+const matchColumns = ["Juego", "Participantes", "Ganadores", "Fecha"];
+
 export {
     processMatches,
 }

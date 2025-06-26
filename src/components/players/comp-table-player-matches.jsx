@@ -6,6 +6,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import TablaBox from "../../utils/Pieces/tabla-box";
+import TablaRow from "../../utils/Pieces/tabla-row";
 import { Box, Container } from "@mui/material";
 
 
@@ -13,7 +14,7 @@ const TablePlayerMatches = ({ data }) => {
     const columns = ["Juego", "Participantes", "Ganadores"];
 
     const rows = data.map((row, index) => (
-        <TableRow key={row.id || `row-${index}`}>
+        /* <TableRow key={row.id || `row-${index}`}>
             <TableCell colSpan={4} sx={{ padding: 0 }}>
                 <Box
                     display="flex"
@@ -35,7 +36,8 @@ const TablePlayerMatches = ({ data }) => {
                     ))}
                 </Box>
             </TableCell>
-        </TableRow>
+        </TableRow>  */
+        <TablaRow columns = {columns} row={row} index = {index} key={row.id || `row-${index}`} />
     ));
 
     const totalTable = (

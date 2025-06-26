@@ -1,16 +1,17 @@
-
 import "./App.css";
+import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Box, CssBaseline, Container } from "@mui/material";
+import { Box, CssBaseline, Container, Typography } from "@mui/material";
 import Header from "./views/header/header";
 import Footer from "./views/footer/footer";
-import Home from "./components/home";
+import Login from "./views/login/login";
 
 import Players from "./views/mainContent/players-container";
 import Authors from "./components/authors/authors";
 import Games from "./components/games/games";
 import Matches from "./components/matches/matches";
 import Dashboardcontainer from "./views/mainContent/dashboard-container";
+import ProtectedRoute from "./components/protectedRoute";
 
 import { PlayersProvider } from "./context/PlayersContext";
 import { AuthorsProvider } from "./context/AuthorsContext";
@@ -18,70 +19,93 @@ import { GamesProvider } from "./context/GamesContext";
 import { MatchesProvider } from "./context/MatchesContext";
 
 function App() {
-    return (
-        <PlayersProvider>
-            <AuthorsProvider>
-                <GamesProvider>
-                    <MatchesProvider>
-                        <BrowserRouter>
-                            <CssBaseline />
-                            <Box
-                                sx={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    minHeight: "100vh",
-                                }}
-                            >
-                                <Header />
-                                <Container
-                                    sx={{
-                                        flexGrow: 1,
-                                        padding: "12px",
-                                        display: "flex",
-                                        justifyContent: "center",
-                                    }}
-                                >
-                                    {/* Ajusta este valor según la altura del header */}
-                                    <Routes>
-                                        <Route exact path="/" element={<Home />} />
-                                        <Route
-                                            exact
-                                            path="/players"
-                                            element={<Players />}
-                                        />
-                                        <Route
-                                            exact
-                                            path="/authors"
-                                            element={<Authors />}
-                                        />
-                                        <Route exact path="/games" element={<Games />} />
-                                        <Route
-                                            exact
-                                            path="/matches"
-                                            element={<Matches />}
-                                        />
-                                        <Route
-                                            exact
-                                            path="/Dasboard"
-                                            element={<Dashboardcontainer />}
-                                        />
-                                        {/* <Route exact path="/grupo/nuevoGrupo" component={NuevoGrupo} /> */}
-                                        {/* <Route
-                                        path="/grupos/:grupoId"
-                                        render={({ match }) => (
-                                            <GrupoContainer id={match.params.grupoId} />
-                                        )}
-                                    /> */}
-                                    </Routes>
-                                </Container>
-                                <Footer />
-                            </Box>
-                        </BrowserRouter>
-                    </MatchesProvider>
-                </GamesProvider>
-            </AuthorsProvider>
-        </PlayersProvider>
-    );
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
+
+
+
+  return (
+    <BrowserRouter>
+      <PlayersProvider>
+          {!user ? (
+              <Login onLogin={setUser} />
+          ) : (
+      <AuthorsProvider>
+        <GamesProvider>
+          <MatchesProvider>
+            <CssBaseline />
+            <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  minHeight: "100vh",
+                }}
+            >
+                <Header onLogout={() => {
+                  localStorage.removeItem("user");
+                  console.log("User logged out");
+                  setUser(null);
+                }} />
+              <Container
+                  sx={{
+                    flexGrow: 1,
+                    padding: "12px",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+              >
+                  {/* Ajusta este valor según la altura del header */}
+                <Routes>
+                  {/* <Route exact path="/" element={<Login />} /> */}
+                  <Route
+                    exact
+                    path="/players"
+                    element={<Players />}
+                  />
+                  <Route
+                    exact
+                    path="/authors"
+                    element={<Authors />}
+                  />
+                  <Route
+                    exact
+                    path="/games"
+                    element={<Games />}
+                  />
+                  <Route
+                    exact
+                    path="/matches"
+                    element={<Matches />}
+                  />
+                 <Route
+                    exact
+                    path="/Dasboard"
+                    element={
+                      user?.rol === "admin" ? (
+                        <Dashboardcontainer />
+                      ) : (
+                        <Typography variant="h4" color="error" sx={{ mt: 4 }}>
+                          No tienes acceso a esta sección.
+                        </Typography>
+                      )
+                    }
+                  />
+                </Routes>
+              </Container>
+              <Footer />
+            </Box>
+          </MatchesProvider>
+        </GamesProvider>
+      </AuthorsProvider>
+          )}
+      </PlayersProvider>
+    </BrowserRouter>
+  );
 }
 
 export default App;

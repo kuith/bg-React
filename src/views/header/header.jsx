@@ -48,6 +48,19 @@ const NavList = ({ ...props }) => {
     );
   };
 
+  const LogoutButton = () => {
+    return(
+      <Button
+        variant="outlined"
+        color="secondary"
+        onClick={onLogout}
+        style={{ marginLeft: "auto" }}
+      >
+        Cerrar sesión
+      </Button>
+    );
+  };
+
   const Nav = () => {
     const [open, setOpen] = useState(false);
     const toggleDrawer = newOpen => () => {
@@ -81,7 +94,7 @@ const NavList = ({ ...props }) => {
     );
   };
 
-  const Header = () => {
+  const Header = ({onLogout}) => {
     return (
         <AppBar position="static">
             <Container maxWidth="lg">
@@ -94,6 +107,14 @@ const NavList = ({ ...props }) => {
                     >
                         <Typography variant="h6">Juegos de Mesa</Typography>
                         <Nav />
+                        <Button
+                          variant="outlined"
+                          color="secondary"
+                          onClick={onLogout}
+                          sx={{ ml: 2 }}
+                        >
+                          Cerrar sesión
+                      </Button>
                     </Stack>
                 </Toolbar>
             </Container>
