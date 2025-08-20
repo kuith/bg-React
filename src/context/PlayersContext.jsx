@@ -4,30 +4,28 @@ import { getAllPlayers } from "../api/playersService";
 export const PlayersContext = createContext();
 
 export const PlayersProvider = ({ children }) => {
-    const [players, setPlayers] = useState([]); // Estado inicial vacío
-    const [loading, setLoading] = useState(true); // Estado de carga
+    const [players, setPlayers] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    // Define fetchPlayers
+    const fetchPlayers = async () => {
+        setLoading(true);
+        try {
+            const data = await getAllPlayers();
+            setPlayers(data);
+        } catch (error) {
+            console.error("Error al cargar jugadores:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        const fetchPlayers = async () => {
-            try {
-                const data = await getAllPlayers(); // Llama al servicio
-                console.log("Jugadores obtenidos en el contexto:", data); // Verifica los datos
-                setPlayers(data); // Actualiza el estado con los datos obtenidos
-            } catch (error) {
-                console.error(
-                    "Error al cargar jugadores en el contexto:",
-                    error
-                );
-            } finally {
-                setLoading(false); // Finaliza el estado de carga
-            }
-        };
-
         fetchPlayers();
     }, []);
 
     return (
-        <PlayersContext.Provider value={{ players, loading }}>
+        <PlayersContext.Provider value={{ players, loading, fetchPlayers }}>
             {children}
         </PlayersContext.Provider>
     );

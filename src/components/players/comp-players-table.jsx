@@ -14,35 +14,6 @@ const PlayersTable = ({ data, onClick }) => {
     const columns = ["Nombre", "correo", "rol"];
     const labelButton = "Partidas";
     const rows = data.map((row, index) => (
-        /* <TableRow key={row.id || `row-${index}`}>
-            <TableCell colSpan={4} sx={{ padding: 0 }}>
-                <Box
-                    display="flex"
-                    flexDirection={{ xs: "column", md: "row" }}
-                    justifyContent="space-evenly"
-                    alignItems="center"
-                    sx={{
-                        padding: 1,
-                        borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                        gap: { xs: 1, md: 0 },
-                    }}
-                >
-                    {columns.map((item, index) => (
-                        <TablaBox
-                            key={index}
-                            label={item}
-                            value={row[item.toLowerCase()]}
-                        />
-                    ))}
-
-                    <TablaButton
-                        label="Partidas"
-                        value={row.id}
-                        onClick={onClick}
-                    />
-                </Box>
-            </TableCell>
-        </TableRow> */
 
         <TablaRow columns={columns} row={row} index={index} labelButon={labelButton} onClick={onClick} key={row.id || `row-${index}`} />
     ));

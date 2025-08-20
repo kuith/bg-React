@@ -19,19 +19,11 @@ const PlayersContainer = () => {
     const [selectedPlayer, setSelectedPlayer] = useState();
 
     const reloadJugador = async (jugadorId) => {
-    const player = await getPlayerById(jugadorId);
-    setSelectedPlayer(player);
-    //console.log("desde container", player);
-};
-
-/* useEffect(() => {
-        if (selectedPlayer) {
-            console.log("Ahora sí, jugador seleccionado:", selectedPlayer);
-        }
-    }, [selectedPlayer]); */
+        const player = await getPlayerById(jugadorId);
+        setSelectedPlayer(player);
+    };
 
     const onClickForMatches = async (jugadorId) => {
-    //console.log("ID del jugador seleccionado:", jugadorId);
     setLoadingMatches(true);
     setError(null);
 
@@ -40,8 +32,6 @@ const PlayersContainer = () => {
         const processedData = processMatches(data);
         setMatches(processedData);
         await reloadJugador(jugadorId); // <-- Espera a que termine
-        //console.log("ID del jugador recargado:", jugadorId);
-        //console.log("jugador seleccionado:", selectedPlayer); // OJO: aquí selectedPlayer aún no está actualizado
     } catch (error) {
         setError("No se pudieron cargar las partidas.");
     } finally {

@@ -21,7 +21,8 @@ const Login = ({ onLogin }) => {
       (p) => p.nombre === nombre && p.correo === correo
     );
     if (usuario) {
-      localStorage.setItem("user", JSON.stringify(usuario)); // Guarda el usuario en localStorage
+      //localStorage.setItem("user", JSON.stringify(usuario)); // Guarda el usuario en localStorage
+      sessionStorage.setItem("user", JSON.stringify(usuario));
       onLogin(usuario); // Guarda el usuario en el estado de App.jsx
       navigate("/players"); // Redirige a /players
     } else {

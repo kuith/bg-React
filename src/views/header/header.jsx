@@ -10,6 +10,8 @@ import {
   Drawer,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+//import DashboardCustomizeOutlinedIcon from '@mui/icons-material/DashboardCustomizeOutlined';
+import ExitToAppOutlinedIcon from '@mui/icons-material/ExitToAppOutlined';
 const pages = [
     { name: "Jugadores", id: "players", path: "/players" },
     { name: "Autores", id: "authors", path: "/authors" },
@@ -42,7 +44,7 @@ const NavList = ({ ...props }) => {
                     }}
                 >
                 {page.name}
-                </Link>
+              </Link>
             ))}
         </Stack>
     );
@@ -107,14 +109,7 @@ const NavList = ({ ...props }) => {
                     >
                         <Typography variant="h6">Juegos de Mesa</Typography>
                         <Nav />
-                        <Button
-                          variant="outlined"
-                          color="secondary"
-                          onClick={onLogout}
-                          sx={{ ml: 2 }}
-                        >
-                          Cerrar sesión
-                      </Button>
+                        <ExitToAppOutlinedIcon onClick={onLogout}/>
                     </Stack>
                 </Toolbar>
             </Container>

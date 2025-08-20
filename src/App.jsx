@@ -20,8 +20,10 @@ import { MatchesProvider } from "./context/MatchesContext";
 
 function App() {
   const [user, setUser] = useState(null);
+
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
+    //const storedUser = localStorage.getItem("user");
+    const storedUser = sessionStorage.getItem("user");
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
@@ -47,7 +49,7 @@ function App() {
                 }}
             >
                 <Header onLogout={() => {
-                  localStorage.removeItem("user");
+                  sessionStorage.removeItem("user");
                   console.log("User logged out");
                   setUser(null);
                 }} />
@@ -59,9 +61,7 @@ function App() {
                     justifyContent: "center",
                   }}
               >
-                  {/* Ajusta este valor según la altura del header */}
                 <Routes>
-                  {/* <Route exact path="/" element={<Login />} /> */}
                   <Route
                     exact
                     path="/players"

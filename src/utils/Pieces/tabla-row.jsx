@@ -6,7 +6,7 @@ import TablaButton from "./tabla-button";
 
 const TablaRow = ({ columns, row, index, labelButon, onClick} ) => {
 
-    const tablaBox = () =>{
+/*     const tablaBox = () =>{
         return (
             <TablaBox
                 key={item}
@@ -23,7 +23,7 @@ const TablaRow = ({ columns, row, index, labelButon, onClick} ) => {
                 onClick={onClick}
             />
         );
-    }
+    } */
     return (
         <TableRow>
             <TableCell colSpan={4} sx={{ padding: 0 }}>
