@@ -84,5 +84,5 @@ export const getPlayersByGame = async (gameId) => {
 
 export const createPlayer = (playerData) => api.post("/players/", playerData);
 export const updatePlayer = (id, playerData) =>
-    api.put(`/players/${id}`, playerData);
+    api.patch(`/players/${id}`, playerData);
 export const deletePlayer = (id) => api.del(`/players/${id}`);

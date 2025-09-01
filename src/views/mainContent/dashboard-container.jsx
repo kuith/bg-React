@@ -17,7 +17,8 @@ import { getPlayerById } from "../../api/playersService";
 import { PlayersContext } from "../../context/PlayersContext";
 import { createPlayer } from "../../api/playersService";
 import { deletePlayer } from "../../api/playersService";
-
+import { updatePlayer } from "../../api/playersService";
+//import { getPlayerById } from "../../api/playersService";
 
 
 const DashboardContainer = () => {
@@ -45,6 +46,13 @@ const DashboardContainer = () => {
 
     const onClickUpdatePlayer = async (jugadorId) => {
         console.log("Actualizar jugador con ID:", jugadorId);
+        try {
+            const player = await getPlayerById(jugadorId);
+            setSelectedPlayer(player);
+            //console.log("SelectedPlayer:", player);
+        } catch (error) {
+            alert(error.message || "Error al actualizar jugador");
+        }
     };
 
     const handleNewPlayer = async (dataPlayer) => {
@@ -57,6 +65,23 @@ const DashboardContainer = () => {
             alert(error.message || "Error al crear jugador");
         }
     };
+
+    const handleSavePlayer = async (dataPlayer) => {
+    try {
+        if (dataPlayer.id) {
+            await updatePlayer(dataPlayer.id, dataPlayer);
+            alert("Jugador actualizado con éxito");
+        } else {
+            await createPlayer(dataPlayer);
+            alert("Jugador creado con éxito");
+        }
+        setErrorMsg("");
+        setSelectedPlayer(null);
+        await fetchPlayers();
+    } catch (error) {
+        setErrorMsg(error.message || "Error al guardar jugador");
+    }
+};
 
     return (
         <>
@@ -78,8 +103,9 @@ const DashboardContainer = () => {
                                 data={players}
                                 onClickDeletePlayer={onClickDeletePlayer}
                                 onClickUpdatePlayer={onClickUpdatePlayer}
-                                handleNewPlayer={handleNewPlayer}
+                                handleSavePlayer={handleSavePlayer}
                                 errorMsg={errorMsg}
+                                selectedPlayer={selectedPlayer}
                                 />
                         </Paper>
                     </Grid>

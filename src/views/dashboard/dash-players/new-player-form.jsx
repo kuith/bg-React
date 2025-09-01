@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -9,14 +9,35 @@ import {
   Typography
 } from "@mui/material";
 
-const NewPlayerForm = ({ open, onClose, onSubmit, errorMsg }) => {
+const NewPlayerForm = ({ open, onClose, onSubmit, errorMsg, playerToEdit }) => {
   const [form, setForm] = useState({
     nombre: "",
     correo: "",
     rol: "",
     password: "",
-    fecha_registro: "12-12-2024"
+    fecha_registro: ""
   });
+
+  // Este useEffect actualiza el formulario cuando playerToEdit cambia
+  useEffect(() => {
+    if (playerToEdit) {
+      setForm({
+        nombre: playerToEdit.nombre || "",
+        correo: playerToEdit.correo || "",
+        rol: playerToEdit.rol || "",
+        password: playerToEdit.password || "",
+        fecha_registro: playerToEdit.fecha_registro || ""
+      });
+    } else {
+      setForm({
+        nombre: "",
+        correo: "",
+        rol: "",
+        password: "",
+        fecha_registro: ""
+      });
+    }
+  }, [playerToEdit, open]);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -31,7 +52,8 @@ const NewPlayerForm = ({ open, onClose, onSubmit, errorMsg }) => {
 
     const formWithDate = {
       ...form,
-      fecha_registro: fecha
+      fecha_registro: fecha,
+      ...(playerToEdit?.id ? { id: playerToEdit.id } : {})
     };
     onSubmit(formWithDate);
     setForm({ nombre: "", correo: "", rol: "", password: "", fecha_registro: "" });
@@ -40,7 +62,7 @@ const NewPlayerForm = ({ open, onClose, onSubmit, errorMsg }) => {
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Nuevo Jugador</DialogTitle>
+      <DialogTitle>{playerToEdit ? "Editar Jugador" : "Nuevo Jugador"}</DialogTitle>
       <DialogContent>
         <TextField
           autoFocus
@@ -83,7 +105,9 @@ const NewPlayerForm = ({ open, onClose, onSubmit, errorMsg }) => {
       )}
       <DialogActions>
         <Button onClick={onClose}>Cancelar</Button>
-        <Button onClick={handleSubmit} variant="contained">Crear</Button>
+        <Button onClick={handleSubmit} variant="contained">
+          {playerToEdit ? "Actualizar" : "Crear"}
+        </Button>
       </DialogActions>
     </Dialog>
   );

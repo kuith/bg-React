@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, CssBaseline, Container, Typography } from "@mui/material";
 import { DataGrid } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
@@ -7,8 +7,21 @@ import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import SyncAltOutlinedIcon from '@mui/icons-material/SyncAltOutlined';
 import NewPlayerForm from './new-player-form';
 
-const DashPlayers = ({ data, onClickDeletePlayer, onClickUpdatePlayer, handleNewPlayer }) => {
+const DashPlayers = ({ 
+        data,
+        onClickDeletePlayer,
+        onClickUpdatePlayer,
+        handleSavePlayer,
+        errorMsg,
+        selectedPlayer
+     }) => {
     const [open, setOpen] = useState(false);
+
+    // Cuando cambia selectedPlayer, abre el formulario para editar
+    useEffect(() => {
+        if (selectedPlayer) setOpen(true);
+    }, [selectedPlayer]);
+
     const columns = [
         { field: 'id', headerName: 'ID', width: 70 },
         { field: 'nombre', headerName: 'Nombre', width: 130 },
@@ -61,7 +74,9 @@ const NewPlayerFormTag = () => {
         <NewPlayerForm
             open={open}
             onClose={() => setOpen(false)}
-            onSubmit={handleNewPlayer}
+            onSubmit={handleSavePlayer}
+            playerToEdit={selectedPlayer}
+            errorMsg={errorMsg}
         />);
   };
 
