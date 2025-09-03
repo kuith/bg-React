@@ -7,7 +7,7 @@ import Footer from "./views/footer/footer";
 import Login from "./views/login/login";
 
 import Players from "./views/mainContent/players-container";
-import Authors from "./components/authors/authors";
+import Authors from "./views/mainContent/authors-container";
 import Games from "./components/games/games";
 import Matches from "./components/matches/matches";
 import Dashboardcontainer from "./views/mainContent/dashboard-container";
@@ -17,6 +17,7 @@ import { PlayersProvider } from "./context/PlayersContext";
 import { AuthorsProvider } from "./context/AuthorsContext";
 import { GamesProvider } from "./context/GamesContext";
 import { MatchesProvider } from "./context/MatchesContext";
+
 
 function App() {
   const [user, setUser] = useState(null);

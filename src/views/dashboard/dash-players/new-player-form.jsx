@@ -8,6 +8,8 @@ import {
   Button,
   Typography
 } from "@mui/material";
+import { validatePlayer } from "../../../utils/validations";
+import { ActualDate } from "../../../utils/validations";
 
 const NewPlayerForm = ({ open, onClose, onSubmit, errorMsg, playerToEdit }) => {
   const [form, setForm] = useState({
@@ -44,12 +46,13 @@ const NewPlayerForm = ({ open, onClose, onSubmit, errorMsg, playerToEdit }) => {
   };
 
   const handleSubmit = () => {
-    const now = new Date();
-    const dia = String(now.getDate()).padStart(2, '0');
-    const mes = String(now.getMonth() + 1).padStart(2, '0');
-    const anio = now.getFullYear();
-    const fecha = `${dia}/${mes}/${anio}`; // Siempre dos dígitos
-
+    const error = validatePlayer(form, !!playerToEdit);
+    if (error) {
+      alert(error); // O setErrorMsg(error)
+      return;
+    }
+    
+    const fecha = ActualDate();
     const formWithDate = {
       ...form,
       fecha_registro: fecha,

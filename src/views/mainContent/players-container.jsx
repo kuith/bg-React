@@ -18,26 +18,33 @@ const PlayersContainer = () => {
     const [error, setError] = useState(null);
     const [selectedPlayer, setSelectedPlayer] = useState();
 
+    const playerColumns = ["Nombre", "Correo", "Rol"];
+    const playerEntity = "Jugador";
+    const playerLabel = "Partidas";
+    const matchesColumns =  ["Juego", "Participantes", "Ganadores"];
+    const matchesEntity = "Partida";
+    const matchesLabel = "Detalles";
+
     const reloadJugador = async (jugadorId) => {
         const player = await getPlayerById(jugadorId);
         setSelectedPlayer(player);
     };
 
     const onClickForMatches = async (jugadorId) => {
-    setLoadingMatches(true);
-    setError(null);
+        setLoadingMatches(true);
+        setError(null);
 
-    try {
-        const data = await getMatchesByPlayer(jugadorId);
-        const processedData = processMatches(data);
-        setMatches(processedData);
-        await reloadJugador(jugadorId); // <-- Espera a que termine
-    } catch (error) {
-        setError("No se pudieron cargar las partidas.");
-    } finally {
-        setLoadingMatches(false);
-    }
-};
+        try {
+            const data = await getMatchesByPlayer(jugadorId);
+            const processedData = processMatches(data);
+            setMatches(processedData);
+            await reloadJugador(jugadorId); // <-- Espera a que termine
+        } catch (error) {
+            setError("No se pudieron cargar las partidas.");
+        } finally {
+            setLoadingMatches(false);
+        }
+    };
 
     if (loading) return <p>Cargando...</p>;
 
@@ -50,8 +57,9 @@ const PlayersContainer = () => {
                 <PlayersTable
                     data={players}
                     onClick={(id) => onClickForMatches(id)}
-                    buttonVisible
-                    labelButton
+                    tableColumns={playerColumns}
+                    entityName={playerEntity}
+                    label={playerLabel}
                 />
                 <Typography variant="h5" align="center" gutterBottom>
                     Partidas de{" "}
@@ -62,6 +70,9 @@ const PlayersContainer = () => {
                     loading={loadingMatches}
                     error={error}
                     idJugador ={selectedPlayer?.id || null}
+                    tableColumns={matchesColumns}
+                    entityName={matchesEntity}
+                    label={matchesLabel}
                 />
             </Stack>
         </Box>
