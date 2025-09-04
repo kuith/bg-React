@@ -7,8 +7,6 @@ import { Box, Container } from "@mui/material";
 import TablaRow from "../../utils/Pieces/tabla-row";
 
 const CompEntityTable = ({ data, onClick, tableColumns, entityName, label }) => {
-    //const columns = columns;
-    //const labelButton = label;
     const rows = data.map((row, index) => (
 
         <TablaRow 

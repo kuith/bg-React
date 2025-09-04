@@ -19,3 +19,10 @@ export const ActualDate = () => {
   const anio = now.getFullYear();
   return `${dia}/${mes}/${anio}`;
 };
+
+export const validateAuthor = (form, isEdit = false) => {
+  if (!form.nombre || !form.nacionalidad) {
+    return "Todos los campos obligatorios deben estar rellenos";
+  }
+  return null;
+};

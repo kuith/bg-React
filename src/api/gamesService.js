@@ -125,9 +125,10 @@ export const getGamesByMaxPlayers = async (maxjugadores) => {
 export const getGamesByAuthors = async (id) => {
     try {
         const response = await api.get(`/games/gamesByAutors/${id}`);
-        return response.data;
+        return response;
     } catch (error) {
         console.error("Error al obtener juego por autor:", error);
+        return [];
     }
 };
 

@@ -12,7 +12,7 @@ export const getAllAuthors = async () => {
 
 export const getAuthorById = async (id) => {
     try {
-        const response = await api.get(`/authors/${id}`);
+        const response = await api.get(`/authors/id/${id}`);
         return response.data;
     } catch (error) {
         console.error("Error al obtener autor por id:", error);

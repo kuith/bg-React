@@ -18,8 +18,6 @@ import { PlayersContext } from "../../context/PlayersContext";
 import { createPlayer } from "../../api/playersService";
 import { deletePlayer } from "../../api/playersService";
 import { updatePlayer } from "../../api/playersService";
-//import { getPlayerById } from "../../api/playersService";
-
 
 const DashboardContainer = () => {
     const { players, fetchPlayers } = useContext(PlayersContext);
@@ -55,7 +53,7 @@ const DashboardContainer = () => {
         }
     };
 
-    const handleNewPlayer = async (dataPlayer) => {
+/*     const handleNewPlayer = async (dataPlayer) => {
         console.log("Crear nuevo jugador", dataPlayer);
         try {
             await createPlayer(dataPlayer);
@@ -64,24 +62,35 @@ const DashboardContainer = () => {
         } catch (error) {
             alert(error.message || "Error al crear jugador");
         }
-    };
+    }; */
 
     const handleSavePlayer = async (dataPlayer) => {
-    try {
-        if (dataPlayer.id) {
-            await updatePlayer(dataPlayer.id, dataPlayer);
-            alert("Jugador actualizado con éxito");
-        } else {
-            await createPlayer(dataPlayer);
-            alert("Jugador creado con éxito");
+        try {
+            if (dataPlayer.id) {
+                await updatePlayer(dataPlayer.id, dataPlayer);
+                alert("Jugador actualizado con éxito");
+            } else {
+                await createPlayer(dataPlayer);
+                alert("Jugador creado con éxito");
+            }
+            setErrorMsg("");
+            setSelectedPlayer(null);
+            await fetchPlayers();
+        } catch (error) {
+            setErrorMsg(error.message || "Error al guardar jugador");
         }
-        setErrorMsg("");
-        setSelectedPlayer(null);
-        await fetchPlayers();
-    } catch (error) {
-        setErrorMsg(error.message || "Error al guardar jugador");
-    }
-};
+    };
+
+    const dashPlayersTag = (
+        <DashPlayers 
+            data={players}
+            onClickDeletePlayer={onClickDeletePlayer}
+            onClickUpdatePlayer={onClickUpdatePlayer}
+            handleSavePlayer={handleSavePlayer}
+            errorMsg={errorMsg}
+            selectedPlayer={selectedPlayer}
+        />
+    );
 
     return (
         <>
@@ -99,14 +108,7 @@ const DashboardContainer = () => {
                     </Grid>
                     <Grid size={12}>
                         <Paper>
-                            <DashPlayers 
-                                data={players}
-                                onClickDeletePlayer={onClickDeletePlayer}
-                                onClickUpdatePlayer={onClickUpdatePlayer}
-                                handleSavePlayer={handleSavePlayer}
-                                errorMsg={errorMsg}
-                                selectedPlayer={selectedPlayer}
-                                />
+                            {dashPlayersTag}
                         </Paper>
                     </Grid>
                     <Grid size={12}>

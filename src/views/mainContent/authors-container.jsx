@@ -6,8 +6,9 @@ import Box from "@mui/material/Box";
 import { AuthorsContext } from "../../context/AuthorsContext";
 import { getGamesByAuthors } from "../../api/gamesService";
 import { getAuthorById } from "../../api/authorsService";
+import { processGames } from "../../utils/processors";
 import AuthorsTable from "../../components/authors/comp-authors-table";
-//import PlayerMatchesTable from "./mainPlayers/view-table-players-matches";
+import AuthorsGamesTable from "./mainAuthors/view-table-authors-games";
 
 const AuthorsContainer = () => {
     const { authors, loading } = useContext(AuthorsContext);
@@ -15,6 +16,13 @@ const AuthorsContainer = () => {
     const [games, setGames] = useState([]);
     const [loadingGames, setLoadingGames] = useState(false);
     const [error, setError] = useState(null);
+
+    const authorsColumns = ["Nombre", "Nacionalidad"];
+    const authorEntity = "Autor";
+    const authorLabel = "Juegos";
+    const gamesColumns =  ["nombre", "tipo", "descripcion"];
+    const gamesEntity = "Juego";
+    const gamesLabel = "Detalles";
 
     const reloadAuthor = async (authorId) => {
         const author = await getAuthorById(authorId);
@@ -25,14 +33,16 @@ const AuthorsContainer = () => {
         setLoadingGames(true);
         setError(null);
         console.log("Author ID clicked:", authorId);
-
         try {
             const data = await getGamesByAuthors(authorId);
+            console.log("Respuesta de la API getGamesByAuthors:", data);
             const processedData = processGames(data);
+            console.log("Datos procesados para la tabla:", processedData);
             setGames(processedData);
-            await reloadAuthor(authorId); // <-- Espera a que termine
+            await reloadAuthor(authorId); 
         } catch (error) {
             setError("No se pudieron cargar los juegos.");
+            console.error("Error en onClickForGames:", error);
         } finally {
             setLoadingGames(false);
         }
@@ -46,20 +56,27 @@ const AuthorsContainer = () => {
                 <Typography variant="h5" align="center" gutterBottom>
                     Autores
                 </Typography>
-                {/* Puedes reemplazar Authors por una tabla si la creas */}
 
                 <AuthorsTable
                     data={authors}
-                    onClick={onClickForGames}
-                    buttonVisible
-                    labelButton
+                    onClick={(id) => onClickForGames(id)}
+                    tableColumns={authorsColumns}
+                    entityName={authorEntity}
+                    label={authorLabel}
                 />
-                {/*
                 <Typography variant="h5" align="center" gutterBottom>
-                    Detalles de {selectedAuthor?.nombre || "ningún autor seleccionado"}
+                    Juegos de {" "}
+                    {selectedAuthor?.nombre || "ningún autor seleccionado"}
                 </Typography>
-                <AuthorDetails author={selectedAuthor} />
-                */}
+                <AuthorsGamesTable
+                    games={games}
+                    loading={loadingGames}
+                    error={error}
+                    idAutor={selectedAuthor?.id || null}
+                    tableColumns={gamesColumns}
+                    entityName={gamesEntity}
+                    label={gamesLabel}
+                />
             </Stack>
         </Box>
     );

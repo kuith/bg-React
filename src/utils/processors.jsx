@@ -1,3 +1,12 @@
+// Procesa los juegos para la tabla de juegos de autor
+const processGames = (games) => {
+    if (!Array.isArray(games)) return [];
+    return games.map((game) => ({
+        nombre: game.nombre,
+        tipo: game.tipo || game.type || "",
+        descripcion: game.descripcion || game.description || ""
+    }));
+};
 const processMatches = (matches) => {
     return matches.map((match) => ({
         juego: match.juego.nombre,
@@ -14,4 +23,5 @@ const matchColumns = ["Juego", "Participantes", "Ganadores", "Fecha"];
 
 export {
     processMatches,
+    processGames,
 }
