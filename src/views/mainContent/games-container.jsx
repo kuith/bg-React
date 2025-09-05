@@ -1,3 +1,5 @@
+
+
 import React, { useContext, useState, useEffect } from "react";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
@@ -6,36 +8,23 @@ import Box from "@mui/material/Box";
 import { GamesContext } from "../../context/GamesContext";
 import GamesTable from "../../components/games/comp-games-table";
 import GameDetailCard from "../../components/games/GameDetailCard";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 import { getGamesById } from "../../api/gamesService";
 
 
 const GamesContainer = () => {
     const { games, loading } = useContext(GamesContext);
-    const [selectedGame, setSelectedGame] = useState();
+    const [selectedGame, setSelectedGame] = useState(null);
     const [loadingGames, setLoadingGames] = useState(false);
     const [error, setError] = useState(null);
 
     const gamesColumns = ["Nombre", "Tipo", "Descripción"];
     const gamesEntity = "Juego";
     const gamesLabel = "Detalles";
-    const detallesColumns =  [
-                            "nombre", 
-                            "baseExpansion", 
-                            "juegoBase", 
-                            "tipo", 
-                            "anioPublicacion", 
-                            "descripcion", 
-                            "minJugadores", 
-                            "maxJugadores", 
-                            "precio", 
-                            "dispAutoma", 
-                            "autores", 
-                            "editorialMadre", 
-                            "editorialLocal"
-                        ];
-    const detallesEntity = "Juego";
-    const detallesLabel = "Detalles";
-
 
     const reloadGame = async (gameId) => {
         const game = await getGamesById(gameId);
@@ -46,19 +35,39 @@ const GamesContainer = () => {
     const onClickForDetails = async (gameId) => {
         setLoadingGames(true);
         setError(null);
-        console.log("Game ID clicked:", gameId);
         try {
-            await reloadGame(gameId); 
+            await reloadGame(gameId);
         } catch (error) {
             setError("No se pudieron cargar los detalles del juego.");
             console.error("Error en onClickForDetails:", error);
         } finally {
             setLoadingGames(false);
         }
+    };
 
+    const handleCloseDialog = () => {
+        setSelectedGame(null);
     };
 
     if (loading) return <p>Cargando...</p>;
+
+    const gameDetailDialog = (
+        <Dialog open={!!selectedGame} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
+            <DialogTitle>
+                Detalles del juego
+                <IconButton
+                    aria-label="close"
+                    onClick={handleCloseDialog}
+                    sx={{ position: 'absolute', right: 8, top: 8 }}
+                >
+                    <CloseIcon />
+                </IconButton>
+            </DialogTitle>
+            <DialogContent dividers>
+                <GameDetailCard game={selectedGame} />
+            </DialogContent>
+        </Dialog>
+    );
 
     return (
         <Box sx={{ width: "100%" }}>
@@ -79,7 +88,7 @@ const GamesContainer = () => {
                     {selectedGame?.nombre || "ningún juego seleccionado"}
                 </Typography>
 
-                <GameDetailCard game={selectedGame} />
+                {gameDetailDialog}
             </Stack>
         </Box>
     );
