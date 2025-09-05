@@ -8,7 +8,7 @@ import Login from "./views/login/login";
 
 import Players from "./views/mainContent/players-container";
 import Authors from "./views/mainContent/authors-container";
-import Games from "./components/games/games";
+import Games from "./views/mainContent/games-container";
 import Matches from "./components/matches/matches";
 import Dashboardcontainer from "./views/mainContent/dashboard-container";
 import ProtectedRoute from "./components/protectedRoute";

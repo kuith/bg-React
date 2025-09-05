@@ -13,9 +13,11 @@ export const getAllGames = async () => {
 export const getGamesById = async (id) => {
     try {
         const response = await api.get(`/games/id/${id}`);
-        return response.data;
+        console.log("Respuesta cruda de la API:", response);
+        return response;
     } catch (error) {
         console.error("Error al obtener juego por id:", error);
+        return {};
     }
 };
 
