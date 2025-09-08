@@ -6,6 +6,7 @@ const processMatches = (matches) => {
         fecha: formatDate(match.fecha),
         juego: match.juego?.nombre || "",
         jugadores: Array.isArray(match.jugadores) ? match.jugadores.map(j => j.nombre).join(", ") : "",
+        participantes: Array.isArray(match.jugadores) ? match.jugadores.map(j => j.nombre).join(", ") : "",
         ganadores: Array.isArray(match.ganadores) ? match.ganadores.map(g => g.nombre).join(", ") : "",
         // Agrega aquí otros campos procesados si los necesitas
     }));
