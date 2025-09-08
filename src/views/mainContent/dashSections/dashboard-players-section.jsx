@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import Paper from "@mui/material/Paper";
 import { PlayersContext } from "../../../context/PlayersContext";
 import { getPlayerById, createPlayer, deletePlayer, updatePlayer } from "../../../api/playersService";
+import { ActualDate } from "../../../utils/validations";
 import DashPlayers from "../../dashboard/dash-players/dash-players";
 
 const DashboardPlayersSection = () => {
@@ -37,6 +38,14 @@ const DashboardPlayersSection = () => {
 
     const handleSavePlayer = async (dataPlayer) => {
         try {
+            // Si es alta, añade fecha_registro si no existe
+            if (!dataPlayer.id && !dataPlayer.fecha_registro) {
+                dataPlayer.fecha_registro = ActualDate();
+            }
+            // Si es edición, conserva la fecha_registro original si existe
+            if (dataPlayer.id && !dataPlayer.fecha_registro && selectedPlayer?.fecha_registro) {
+                dataPlayer.fecha_registro = selectedPlayer.fecha_registro;
+            }
             if (dataPlayer.id) {
                 await updatePlayer(dataPlayer.id, dataPlayer);
                 alert("Jugador actualizado con éxito");
