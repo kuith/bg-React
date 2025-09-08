@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Box, CssBaseline, Container, Typography } from "@mui/material";
+import { Box, CssBaseline, Container, Typography, Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { DataGrid } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
 import { Button } from "@mui/material";
@@ -80,30 +81,34 @@ const NewPlayerFormTag = () => {
         />);
   };
 
-    if (!data || data.length === 0) return <p>No hay datos disponibles.</p>;
-    
-    return (
-        <>
-            <Typography variant="h6" sx={{ mt: 4 }}>Administración de Jugadores</Typography>
-            <Paper sx={{ height: 400, 
-                width: '100%',
-                '& .MuiDataGrid-columnSeparator': { display: 'none'},
-             }}>
-                <DataGrid
-                    rows={rows}
-                    columns={columns}
-                    pageSizeOptions={[5, 10]}
-                    sx={{ border: 0 }}
-                />
-            </Paper>
-            <Paper sx={{ mt: 2, padding: 2 }}>
-                <NewPlayerButton />
-            </Paper>
-            <NewPlayerFormTag />
 
-        </>
-    
+    if (!data || data.length === 0) return <p>No hay datos disponibles.</p>;
+
+    return (
+        <Accordion defaultExpanded>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography variant="h6">Administración de Jugadores</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+                <Paper sx={{ height: 400, 
+                    width: '100%',
+                    '& .MuiDataGrid-columnSeparator': { display: 'none'},
+                }}>
+                    <DataGrid
+                        rows={rows}
+                        columns={columns}
+                        pageSizeOptions={[5, 10]}
+                        sx={{ border: 0 }}
+                    />
+                </Paper>
+                <Paper sx={{ mt: 2, padding: 2 }}>
+                    <NewPlayerButton />
+                </Paper>
+                <NewPlayerFormTag />
+            </AccordionDetails>
+        </Accordion>
     );
+    
 }
 
 export default DashPlayers;

@@ -1,3 +1,15 @@
+import { formatDate } from "./validations";
+// Procesa las partidas para la tabla de partidas
+const processMatches = (matches) => {
+    return matches.map((match) => ({
+        id: match.id,
+        fecha: formatDate(match.fecha),
+        juego: match.juego?.nombre || "",
+        jugadores: Array.isArray(match.jugadores) ? match.jugadores.map(j => j.nombre).join(", ") : "",
+        ganadores: Array.isArray(match.ganadores) ? match.ganadores.map(g => g.nombre).join(", ") : "",
+        // Agrega aquí otros campos procesados si los necesitas
+    }));
+};
 // Procesa los juegos para la tabla de juegos de autor
 const processGames = (games) => {
     if (!Array.isArray(games)) return [];
@@ -7,13 +19,7 @@ const processGames = (games) => {
         descripcion: game.descripcion || game.description || ""
     }));
 };
-const processMatches = (matches) => {
-    return matches.map((match) => ({
-        juego: match.juego.nombre,
-        ganadores: match.ganadores.map((g) => g.nombre).join(", "),
-        participantes: match.jugadores.map((j) => j.nombre).join(", "),
-    }));
-};
+
 
 // Para la tabla de jugadores
 const playerColumns = ["Nombre", "Edad", "Puntos"];

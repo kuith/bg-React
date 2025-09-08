@@ -13,6 +13,11 @@ import DashMatches from "../dashboard/dash-matches/dash-matches";
 import DashPlayers from "../dashboard/dash-players/dash-players";
 import DashboardPlayersSection from "./dashSections/dashboard-players-section";
 
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
 const DashboardContainer = () => {
 
     return (
@@ -30,22 +35,50 @@ const DashboardContainer = () => {
                         </Typography>
                     </Grid>
                     <Grid size={12}>
-                        <DashboardPlayersSection />
+                        <Accordion defaultExpanded>
+                            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                                <Typography variant="h6">Jugadores</Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                                <DashboardPlayersSection />
+                            </AccordionDetails>
+                        </Accordion>
                     </Grid>
                     <Grid size={12}>
-                        <Paper>
-                            <DashAuthors />
-                        </Paper>
+                        <Accordion defaultExpanded>
+                            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                                <Typography variant="h6">Autores</Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                                <Paper sx={{ p: 2 }}>
+                                    <DashAuthors />
+                                </Paper>
+                            </AccordionDetails>
+                        </Accordion>
                     </Grid>
                     <Grid size={12}>
-                        <Paper>
-                            <DashGames />
-                        </Paper>
+                        <Accordion defaultExpanded>
+                            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                                <Typography variant="h6">Juegos</Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                                <Paper sx={{ p: 2 }}>
+                                    <DashGames />
+                                </Paper>
+                            </AccordionDetails>
+                        </Accordion>
                     </Grid>
                     <Grid size={12}>
-                        <Paper>
-                            <DashMatches />
-                        </Paper>
+                        <Accordion defaultExpanded>
+                            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                                <Typography variant="h6">Partidas</Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                                <Paper sx={{ p: 2 }}>
+                                    <DashMatches />
+                                </Paper>
+                            </AccordionDetails>
+                        </Accordion>
                     </Grid>
                 </Grid>
             </Box>
