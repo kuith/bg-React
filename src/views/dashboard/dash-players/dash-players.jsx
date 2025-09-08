@@ -7,6 +7,9 @@ import { Button } from "@mui/material";
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import SyncAltOutlinedIcon from '@mui/icons-material/SyncAltOutlined';
 import NewPlayerForm from './new-player-form';
+import {formatDate} from '../../../utils/validations';
+
+import NewEntityButton from "../../../components/dash/dash-new-entity-button";
 
 const DashPlayers = ({ 
         data,
@@ -53,11 +56,11 @@ const DashPlayers = ({
             nombre: row.nombre,
             correo: row.correo || 'No disponible',
             rol: row.rol || 'Jugador',
-            fechaRegistro: row.fechaRegistro || 'No disponible',
+            fechaRegistro: formatDate(row.fechaRegistro) || 'No disponible',
         }
     ));
 
-    const NewPlayerButton = () => {
+/*     const NewPlayerButton = () => {
     return(
       <Button
         variant="outlined"
@@ -68,7 +71,7 @@ const DashPlayers = ({
         Nuevo Jugador
       </Button>
     );
-  };
+  }; */
 
 const NewPlayerFormTag = () => {
     return(
@@ -102,7 +105,7 @@ const NewPlayerFormTag = () => {
                     />
                 </Paper>
                 <Paper sx={{ mt: 2, padding: 2 }}>
-                    <NewPlayerButton />
+                    <NewEntityButton labelNew="Nuevo Jugador" onClick={() => setOpen(true)} />
                 </Paper>
                 <NewPlayerFormTag />
             </AccordionDetails>
