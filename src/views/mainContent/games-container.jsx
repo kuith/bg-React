@@ -6,6 +6,7 @@ import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 
 import { GamesContext } from "../../context/GamesContext";
+import { processGames } from "../../utils/processors";
 import GamesTable from "../../components/games/comp-games-table";
 import GameDetailCard from "../../components/games/GameDetailCard";
 import Dialog from "@mui/material/Dialog";
@@ -22,14 +23,13 @@ const GamesContainer = () => {
     const [loadingGames, setLoadingGames] = useState(false);
     const [error, setError] = useState(null);
 
-    const gamesColumns = ["Nombre", "Tipo", "Descripción"];
+    const gamesColumns = ["Nombre", "Tipo", "Descripcion"];
     const gamesEntity = "Juego";
     const gamesLabel = "Detalles";
 
     const reloadGame = async (gameId) => {
-        const game = await getGamesById(gameId);
-        console.log("Valor retornado por getGamesById:", game);
-        setSelectedGame(game);
+    const game = await getGamesById(gameId);
+    setSelectedGame(game);
     };
 
     const onClickForDetails = async (gameId) => {
@@ -49,7 +49,12 @@ const GamesContainer = () => {
         setSelectedGame(null);
     };
 
+
     if (loading) return <p>Cargando...</p>;
+
+    // Normalizar los datos para asegurar que 'descripcion' siempre está presente
+    const processedGames = processGames(games);
+
 
     const gameDetailDialog = (
         <Dialog open={!!selectedGame} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
@@ -77,7 +82,7 @@ const GamesContainer = () => {
                 </Typography>
 
                  <GamesTable
-                    data={games}
+                    data={processedGames}
                     onClick={(id) => onClickForDetails(id)}
                     tableColumns={gamesColumns}
                     entityName={gamesEntity}

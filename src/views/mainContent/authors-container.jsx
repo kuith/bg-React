@@ -49,7 +49,7 @@ const AuthorsContainer = () => {
     };
 
     if (loading) return <p>Cargando...</p>;
-
+    const processedGames = processGames(games);
     return (
         <Box sx={{ width: "100%" }}>
             <Stack spacing={2}>
@@ -69,7 +69,7 @@ const AuthorsContainer = () => {
                     {selectedAuthor?.nombre || "ningún autor seleccionado"}
                 </Typography>
                 <AuthorsGamesTable
-                    games={games}
+                    games={processedGames}
                     loading={loadingGames}
                     error={error}
                     idAutor={selectedAuthor?.id || null}

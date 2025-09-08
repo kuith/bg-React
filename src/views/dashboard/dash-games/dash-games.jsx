@@ -1,6 +1,41 @@
-import React from 'react';
+import React from "react";
+import { formatDate, validateGame } from '../../../utils/validations';
+import DashEntity from '../../../components/dash/DashEntity';
 
-const dashGames = () => {
-    return <h1>Juegos</h1>;
-}
-export default dashGames;
+const DashGames = ({
+    data,
+    onClickDeleteGame,
+    handleSaveGame,
+    errorMsg,
+    selectedGame
+}) => {
+    // Definir columnas y campos para juegos
+    const columns = [
+        'ID',
+        'Nombre',
+        'Descripción',
+        'Año',
+    ];
+    const gameFields = [
+        { name: "nombre", label: "Nombre", required: true },
+        { name: "descripcion", label: "Descripción", required: true },
+        { name: "anioPublicacion", label: "Año", required: true, type: "number" },
+    ];
+
+    return (
+        <DashEntity
+            data={data}
+            columns={columns}
+            fields={gameFields}
+            title="Juegos"
+            onDelete={onClickDeleteGame}
+            onSave={handleSaveGame}
+            errorMsg={errorMsg}
+            selectedEntity={selectedGame}
+            validateFn={validateGame}
+            entityLabel="Juego"
+        />
+    );
+};
+
+export default DashGames;

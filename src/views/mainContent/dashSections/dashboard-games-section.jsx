@@ -1,0 +1,81 @@
+import React, { useContext, useState } from "react";
+import Paper from "@mui/material/Paper";
+import { GamesContext } from "../../../context/GamesContext";
+import { getAuthorById, createAuthor, deleteAuthor, updateAuthor } from "../../../api/authorsService";
+import { ActualDate } from "../../../utils/validations";
+import DashGames from "../../dashboard/dash-games/dash-games";
+import { processGames } from "../../../utils/processors";
+
+const DashboardGamesSection = () => {
+    const { games, fetchGames } = useContext(GamesContext);
+    const [selectedGame, setSelectedGame] = useState();
+    const [errorMsg, setErrorMsg] = useState("");
+
+    const reload = async (gameId) => {
+        const game = await getGameById(gameId);
+        setSelectedGame(game);
+    };
+
+    const onClickDeleteGame = async (gameId) => {
+        console.log("Eliminar juego con ID:", gameId);
+        try {
+            await deleteGame(gameId);
+            alert("Juego eliminado con éxito");
+            await fetchGames();
+        } catch (error) {
+            alert(error.message || "Error al eliminar juego");
+        }
+    };
+
+    const onClickUpdateGame = async (gameId) => {
+        console.log("Actualizar juego con ID:", gameId);
+        try {
+            const game = await getGameById(gameId);
+            setSelectedGame(game);
+        } catch (error) {
+            alert(error.message || "Error al actualizar juego");
+        }
+    };
+
+    const handleSaveGame = async (dataGame) => {
+        try {
+            // Si es alta, añade fecha_registro si no existe
+            if (!dataGame.id && !dataGame.fecha_registro) {
+                dataGame.fecha_registro = ActualDate();
+            }
+            // Si es edición, conserva la fecha_registro original si existe
+            if (dataGame.id && !dataGame.fecha_registro && selectedGame?.fecha_registro) {
+                dataGame.fecha_registro = selectedGame.fecha_registro;
+            }
+            if (dataGame.id) {
+                await updateGame(dataGame.id, dataGame);
+                alert("Juego actualizado con éxito");
+            } else {
+                await createGame(dataGame);
+                alert("Juego creado con éxito");
+            }
+            setErrorMsg("");
+            setSelectedGame(null);
+            await fetchGames();
+        } catch (error) {
+            setErrorMsg(error.message || "Error al guardar juego");
+        }
+    };
+
+    // Log para depuración: ver cómo llegan los juegos desde el backend
+    console.log('Juegos en dashboard-games-section:', games);
+    return (
+        <Paper>
+            <DashGames
+                data={processGames(games)}
+                onClickDeleteGame={onClickDeleteGame}
+                onClickUpdateGame={onClickUpdateGame}
+                handleSaveGame={handleSaveGame}
+                errorMsg={errorMsg}
+                selectedGame={selectedGame}
+            />
+        </Paper>
+    );
+};
+
+export default DashboardGamesSection;

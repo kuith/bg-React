@@ -10,21 +10,14 @@ const DashPlayers = ({
     selectedPlayer
 }) => {
     // Definir columnas y campos para jugadores
-    const columns = ['ID', 'Nombre', 'Correo', 'Rol', 'FechaRegistro'];
+    const columns = ['ID', 'Nombre', 'Correo', 'Rol'];
     const playerFields = [
         { name: "nombre", label: "Nombre", required: true },
         { name: "correo", label: "Correo", required: true, type: "email" },
         { name: "rol", label: "Rol", required: true },
         { name: "password", label: "Password", type: "password" },
+
     ];
-    // Formatear cada fila para la tabla
-    const formatRow = (row, index) => ({
-        id: row.id || index,
-        nombre: row.nombre,
-        correo: row.correo || 'No disponible',
-        rol: row.rol || 'Jugador',
-        fecharegistro: row.fechaRegistro ? formatDate(row.fechaRegistro) : 'No disponible',
-    });
 
     return (
         <DashEntity
@@ -37,7 +30,6 @@ const DashPlayers = ({
             errorMsg={errorMsg}
             selectedEntity={selectedPlayer}
             validateFn={validatePlayer}
-            formatRow={formatRow}
             entityLabel="Jugador"
         />
     );

@@ -12,6 +12,9 @@ import DashGames from "../dashboard/dash-games/dash-games";
 import DashMatches from "../dashboard/dash-matches/dash-matches";
 import DashPlayers from "../dashboard/dash-players/dash-players";
 import DashboardPlayersSection from "./dashSections/dashboard-players-section";
+import DashboardAuthorsSection from "./dashSections/dashboard-authors-section";
+import DashboardGamesSection from "./dashSections/dashboard-games-section";
+//import DashboardMatchesSection from "./dashSections/dashboard-matches-section";
 
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -50,9 +53,7 @@ const DashboardContainer = () => {
                                 <Typography variant="h6">Autores</Typography>
                             </AccordionSummary>
                             <AccordionDetails>
-                                <Paper sx={{ p: 2 }}>
-                                    <DashAuthors />
-                                </Paper>
+                                <DashboardAuthorsSection />
                             </AccordionDetails>
                         </Accordion>
                     </Grid>
@@ -62,9 +63,7 @@ const DashboardContainer = () => {
                                 <Typography variant="h6">Juegos</Typography>
                             </AccordionSummary>
                             <AccordionDetails>
-                                <Paper sx={{ p: 2 }}>
-                                    <DashGames />
-                                </Paper>
+                                <DashboardGamesSection />
                             </AccordionDetails>
                         </Accordion>
                     </Grid>

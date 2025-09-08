@@ -4,6 +4,7 @@ import { PlayersContext } from "../../../context/PlayersContext";
 import { getPlayerById, createPlayer, deletePlayer, updatePlayer } from "../../../api/playersService";
 import { ActualDate } from "../../../utils/validations";
 import DashPlayers from "../../dashboard/dash-players/dash-players";
+import { processPlayers } from '../../../utils/processors';
 
 const DashboardPlayersSection = () => {
     const { players, fetchPlayers } = useContext(PlayersContext);
@@ -64,7 +65,7 @@ const DashboardPlayersSection = () => {
     return (
         <Paper>
             <DashPlayers
-                data={players}
+                data={processPlayers(players)}
                 onClickDeletePlayer={onClickDeletePlayer}
                 onClickUpdatePlayer={onClickUpdatePlayer}
                 handleSavePlayer={handleSavePlayer}
