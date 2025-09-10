@@ -33,9 +33,6 @@ export const validateAuthor = (form, isEdit = false) => {
   if (!form.nombre || !form.nacionalidad) {
     return "Todos los campos obligatorios deben estar rellenos";
   }
-  if (!Array.isArray(form.juegos) || form.juegos.length === 0) {
-    return "El autor debe tener al menos un juego asociado";
-  }
   // Puedes agregar más validaciones aquí si lo necesitas
   return null;
 };

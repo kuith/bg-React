@@ -43,7 +43,7 @@ const processGames = (games) => {
         nombre: game.nombre,
         tipo: game.tipo || game.type || "",
         descripcion: game.descripcion || game.description || "",
-        anio_publicacion: game.anioPublicacion ? formatDate(game.anioPublicacion) : 'No disponible',
+    anio_publicacion: game.anioPublicacion || 'No disponible',
     }));
 };
 

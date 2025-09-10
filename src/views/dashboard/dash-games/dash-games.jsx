@@ -11,10 +11,10 @@ const DashGames = ({
 }) => {
     // Definir columnas y campos para juegos
     const columns = [
-        'ID',
-        'Nombre',
-        'Descripción',
-        'Año',
+        { key: 'id', label: 'ID' },
+        { key: 'nombre', label: 'Nombre' },
+        { key: 'descripcion', label: 'Descripción' },
+        { key: 'anio_publicacion', label: 'Año' },
     ];
     const gameFields = [
         { name: "nombre", label: "Nombre", required: true },

@@ -66,7 +66,9 @@ const DashEntity = ({
             <thead>
               <tr>
                 {columns.map(col => (
-                  <th key={col} style={{ borderBottom: '1px solid #ccc', padding: 8 }}>{col}</th>
+                  <th key={typeof col === 'string' ? col : col.key} style={{ borderBottom: '1px solid #ccc', padding: 8 }}>
+                    {typeof col === 'string' ? col : col.label}
+                  </th>
                 ))}
                 <th>Acciones</th>
               </tr>
@@ -74,9 +76,12 @@ const DashEntity = ({
             <tbody>
               {rows.map((row, idx) => (
                 <tr key={row.id || idx}>
-                  {columns.map(col => (
-                    <td key={col} style={{ padding: 8 }}>{row[col.toLowerCase()]}</td>
-                  ))}
+                  {columns.map(col => {
+                    const key = typeof col === 'string' ? col.toLowerCase() : col.key;
+                    return (
+                      <td key={key} style={{ padding: 8 }}>{row[key]}</td>
+                    );
+                  })}
                   <td>
                     <IconButton size="small" onClick={() => handleEdit(row.id)} aria-label="Editar">
                       <SyncAltOutlinedIcon />
