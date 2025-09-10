@@ -13,7 +13,8 @@ export const getAllAuthors = async () => {
 export const getAuthorById = async (id) => {
     try {
         const response = await api.get(`/authors/id/${id}`);
-        return response.data;
+        // Si la API ya devuelve el objeto autor, simplemente retorna response
+        return response;
     } catch (error) {
         console.error("Error al obtener autor por id:", error);
     }
@@ -40,5 +41,5 @@ export const searchAuthorsByNationality = async (nacionalidad) => {
 };
 
 export const createAuthor = (authorData) => api.post("/authors/", authorData);
-export const updateAuthor = (id, authorData) => api.put(`/authors/${id}`, authorData);
+export const updateAuthor = (id, authorData) => api.patch(`/authors/${id}`, authorData);
 export const deleteAuthor = (id) => api.del(`/authors/${id}`);

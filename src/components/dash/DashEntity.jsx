@@ -70,7 +70,7 @@ const DashEntity = ({
                     {typeof col === 'string' ? col : col.label}
                   </th>
                 ))}
-                <th>Acciones</th>
+                {/* Columna Acciones eliminada */}
               </tr>
             </thead>
             <tbody>
@@ -82,14 +82,7 @@ const DashEntity = ({
                       <td key={key} style={{ padding: 8 }}>{row[key]}</td>
                     );
                   })}
-                  <td>
-                    <IconButton size="small" onClick={() => handleEdit(row.id)} aria-label="Editar">
-                      <SyncAltOutlinedIcon />
-                    </IconButton>
-                    <IconButton size="small" color="error" onClick={() => onDelete(row.id)} aria-label="Borrar">
-                      <DeleteOutlinedIcon />
-                    </IconButton>
-                  </td>
+                  {/* Celda de acciones eliminada */}
                 </tr>
               ))}
             </tbody>

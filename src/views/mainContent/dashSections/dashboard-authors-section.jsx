@@ -13,11 +13,12 @@ const DashboardAuthorsSection = () => {
 
     const reload = async (authorId) => {
         const author = await getAuthorById(authorId);
+        console.log('[reload] Autor obtenido:', author);
         setSelectedAuthor(author);
     };
 
     const onClickDeleteAuthor = async (authorId) => {
-        console.log("Eliminar autor con ID:", authorId);
+        console.log("[onClickDeleteAuthor] Eliminar autor con ID:", authorId);
         try {
             await deleteAuthor(authorId);
             alert("Autor eliminado con éxito");
@@ -28,9 +29,10 @@ const DashboardAuthorsSection = () => {
     };
 
     const onClickUpdateAuthor = async (authorId) => {
-        console.log("Actualizar autor con ID:", authorId);
+        console.log("[onClickUpdateAuthor] Actualizar autor con ID:", authorId);
         try {
             const author = await getAuthorById(authorId);
+            console.log('[onClickUpdateAuthor] Autor obtenido:', author);
             setSelectedAuthor(author);
         } catch (error) {
             alert(error.message || "Error al actualizar autor");
@@ -64,6 +66,7 @@ const DashboardAuthorsSection = () => {
 
     // Log para depuración: ver cómo llegan los autores desde el backend
     console.log('Autores en dashboard-authors-section:', authors);
+    console.log('[render] selectedAuthor:', selectedAuthor);
     return (
         <Paper>
             <DashAuthors

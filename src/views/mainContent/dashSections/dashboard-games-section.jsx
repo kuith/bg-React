@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import Paper from "@mui/material/Paper";
 import { GamesContext } from "../../../context/GamesContext";
-import { getAuthorById, createAuthor, deleteAuthor, updateAuthor } from "../../../api/authorsService";
+import { getGamesById, createGame, deleteGames, updateGame } from "../../../api/gamesService";
 import { ActualDate } from "../../../utils/validations";
 import DashGames from "../../dashboard/dash-games/dash-games";
 import { processGames } from "../../../utils/processors";
@@ -12,14 +12,14 @@ const DashboardGamesSection = () => {
     const [errorMsg, setErrorMsg] = useState("");
 
     const reload = async (gameId) => {
-        const game = await getGameById(gameId);
+        const game = await getGamesById(gameId);
         setSelectedGame(game);
     };
 
     const onClickDeleteGame = async (gameId) => {
         console.log("Eliminar juego con ID:", gameId);
         try {
-            await deleteGame(gameId);
+            await deleteGames(gameId);
             alert("Juego eliminado con éxito");
             await fetchGames();
         } catch (error) {
@@ -30,7 +30,7 @@ const DashboardGamesSection = () => {
     const onClickUpdateGame = async (gameId) => {
         console.log("Actualizar juego con ID:", gameId);
         try {
-            const game = await getGameById(gameId);
+            const game = await getGamesById(gameId);
             setSelectedGame(game);
         } catch (error) {
             alert(error.message || "Error al actualizar juego");

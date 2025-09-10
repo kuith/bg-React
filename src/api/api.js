@@ -36,9 +36,12 @@ const fetchData = async (endpoint, options = {}) => {
 const get = (endpoint) => fetchData(endpoint, { method: "GET" });
 const post = (endpoint, body) =>
     fetchData(endpoint, { method: "POST", body: JSON.stringify(body) });
+
+const put = (endpoint, body) =>
+    fetchData(endpoint, { method: "PUT", body: JSON.stringify(body) });
 const patch = (endpoint, body) =>
     fetchData(endpoint, { method: "PATCH", body: JSON.stringify(body) });
 const del = (endpoint) => fetchData(endpoint, { method: "DELETE" });
 
-export const api = { get, post, patch, del };
+export const api = { get, post, put, patch, del };
 
