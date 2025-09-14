@@ -14,7 +14,7 @@ export const getGamesById = async (id) => {
     try {
         const response = await api.get(`/games/id/${id}`);
         console.log("Respuesta cruda de la API:", response);
-        return response;
+        return response.data ? response.data : response;
     } catch (error) {
         console.error("Error al obtener juego por id:", error);
         return {};
@@ -201,5 +201,5 @@ export const getExpansionsWithoutAutoma = async () => {
 };
 
 export const createGame = (gameData) => api.post("/games/", gameData);
-export const updateGame = (id, gameData) => api.put(`/games/${id}`, gameData);
+export const updateGame = (id, gameData) => api.patch(`/games/${id}`, gameData);
 export const deleteGames = (id) => api.del(`/games/${id}`);

@@ -32,24 +32,18 @@ const GenericDetailModal = ({
         </IconButton>
       </DialogTitle>
       <DialogContent dividers>
-        {Object.keys(entity).length === 0 ? (
-          <Typography>No hay detalles para mostrar.</Typography>
-        ) : (
-          Object.entries(entity).map(([key, value]) => (
-            <div key={key} style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
-              <Typography variant="subtitle2" sx={{ minWidth: 140 }}>
-                {labelMap[key] || key}:
-              </Typography>
-              <Typography variant="body1">
-                {Array.isArray(value)
-                  ? value.map(v => v.nombre || v).join(", ")
-                  : typeof value === "boolean"
-                    ? value ? "Sí" : "No"
-                    : String(value)}
-              </Typography>
+        {Object.entries(entity)
+          .filter(([key]) => key !== 'id')
+          .map(([key, value]) => (
+            <div key={key} style={{ marginBottom: 8 }}>
+              <strong>{labelMap?.[key] || key}:</strong>{' '}
+              {Array.isArray(value)
+                ? value.every(v => typeof v === 'object' && v.nombre)
+                  ? value.map(v => v.nombre).join(', ')
+                  : value.join(', ')
+                : value?.toString()}
             </div>
-          ))
-        )}
+          ))}
       </DialogContent>
       <DialogActions>
         {onEdit && (

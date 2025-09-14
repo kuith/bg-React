@@ -41,7 +41,7 @@ export const validateGame = (form, isEdit = false) => {
   if (!form.nombre || !form.tipo || !form.anioPublicacion || !form.descripcion) {
     return "Todos los campos obligatorios deben estar rellenos";
   }
-  if (!Array.isArray(form.juegos) || form.juegos.length === 0) {
+  if (!Array.isArray(form.autores) || form.autores.length === 0) {
     return "El juego debe tener al menos un autor asociado";
   }
   // Puedes agregar más validaciones aquí si lo necesitas

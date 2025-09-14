@@ -7,12 +7,13 @@ import {
   DialogActions,
   TextField,
   Button,
-  Typography
+  Typography,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem
 } from "@mui/material";
 
-// fields: array de objetos { name, label, type, required }
-// initialValues: objeto con valores iniciales (vacío para alta, con datos para editar)
-// open, onClose, onSubmit, errorMsg, submitLabel
 const EntityDialogForm = ({
   open,
   onClose,
@@ -30,7 +31,8 @@ const EntityDialogForm = ({
   }, [initialValues, open]);
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
   };
 
   const handleSubmit = () => {
@@ -49,19 +51,72 @@ const EntityDialogForm = ({
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>{submitLabel}</DialogTitle>
       <DialogContent>
-        {fields.map((field) => (
-          <TextField
-            key={field.name}
-            margin="dense"
-            name={field.name}
-            label={field.label}
-            type={field.type || "text"}
-            fullWidth
-            value={form[field.name] || ""}
-            onChange={handleChange}
-            required={field.required}
-          />
-        ))}
+        {fields.map((field) => {
+          if (field.type === "select" && field.multiple) {
+            return (
+              <FormControl key={field.name} fullWidth margin="dense">
+                <InputLabel>{field.label}</InputLabel>
+                <Select
+                  label={field.label}
+                  name={field.name}
+                  multiple
+                  value={form[field.name] || []}
+                  onChange={handleChange}
+                  renderValue={(selected) =>
+                    Array.isArray(selected)
+                      ? selected
+                          .map(
+                            (val) =>
+                              field.options.find((opt) => opt.value === val)?.label || val
+                          )
+                          .join(", ")
+                      : ""
+                  }
+                >
+                  {field.options.map((opt) => (
+                    <MenuItem key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            );
+          }
+          // Campo select simple
+          if (field.type === "select") {
+            return (
+              <FormControl key={field.name} fullWidth margin="dense">
+                <InputLabel>{field.label}</InputLabel>
+                <Select
+                  label={field.label}
+                  name={field.name}
+                  value={form[field.name] || ""}
+                  onChange={handleChange}
+                >
+                  {field.options.map((opt) => (
+                    <MenuItem key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            );
+          }
+          // Campo normal
+          return (
+            <TextField
+              key={field.name}
+              margin="dense"
+              name={field.name}
+              label={field.label}
+              type={field.type || "text"}
+              fullWidth
+              value={form[field.name] || ""}
+              onChange={handleChange}
+              required={field.required}
+            />
+          );
+        })}
       </DialogContent>
       {errorMsg && (
         <Typography color="error" sx={{ mt: 1 }}>

@@ -6,6 +6,8 @@ import Button from "@mui/material/Button";
 
 const DashGames = ({
     data,
+    originalGame,
+    authors = [],
     onClickDeleteGame,
     onClickUpdateGame,
     handleSaveGame,
@@ -23,11 +25,34 @@ const DashGames = ({
         { name: "nombre", label: "Nombre", required: true },
         { name: "descripcion", label: "Descripción", required: true },
         { name: "anioPublicacion", label: "Año", required: true, type: "number" },
+        { name: "baseExpansion", label: "JuegoBase/Expansión" },
+        { name: "juegoBase", label: "Juego Base" },
+        { name: "tipo", label: "Tipo" },
+        { name: "minJugadores", label: "Mínimo de Jugadores", type: "number" },
+        { name: "maxJugadores", label: "Máximo de Jugadores", type: "number" },
+        { name: "precio", label: "Precio", type: "number" },
+        { name: "dispAutoma", label: "¿Tiene Automa?", type: "boolean" },
+        {
+            name: "autores",
+            label: "Autores",
+            type: "select",
+            multiple: true,
+            options: authors.map(a => ({ value: a.id, label: a.nombre }))
+        },
+        { name: "editorialMadre", label: "Editorial Madre" },
+        { name: "editorialLocal", label: "Editorial Local" },
     ];
 
             // Estado para el modal de detalles
     const [openDetail, setOpenDetail] = useState(false);
     const [gameDetail, setGameDetail] = useState(null);
+
+    const handleShowDetail = (gameId) => {
+        // Buscar el juego original por id
+        const original = originalGame?.find(g => g.id === gameId);
+        setGameDetail(original || null);
+        setOpenDetail(true);
+    };
 
     // Data con botón Detalles
     const dataWithDetails = data.map(game => ({
@@ -36,10 +61,7 @@ const DashGames = ({
             <Button
                 size="small"
                 variant="outlined"
-                onClick={() => {
-                    setGameDetail(game);
-                    setOpenDetail(true);
-                }}
+                onClick={() => handleShowDetail(game.id)}
             >
                 Detalles
             </Button>
@@ -53,12 +75,32 @@ const DashGames = ({
 
 
     // Opcional: traducir claves a labels legibles
-    const labelMap = {
-        nombre: "Nombre",
-        descripcion: "Descripción",
-        anio_publicacion: "Año de Publicación"
-    };
+     const labelMap = {
+    nombre: "Nombre",
+    descripcion: "Descripción",
+    anioPublicacion: "Año",
+    baseExpansion: "JuegoBase/Expansión",
+    juegoBase: "Juego Base",
+    tipo: "Tipo",
+    minJugadores: "Mínimo de Jugadores",
+    maxJugadores: "Máximo de Jugadores",
+    precio: "Precio",
+    dispAutoma: "¿Tiene Automa?",
+    autores: "Autores",
+    editorialMadre: "Editorial Madre",
+    editorialLocal: "Editorial Local"
+  };
 
+    // selectedEntity debe tener autores como array de ids para el formulario
+    const getSelectedGameForForm = () => {
+        if (!selectedGame) return null;
+        return {
+            ...selectedGame,
+            autores: Array.isArray(selectedGame.autores)
+                ? selectedGame.autores.map(a => a.id ?? a)
+                : []
+        };
+    };
     return (
         <>
             <DashEntity
@@ -69,7 +111,7 @@ const DashGames = ({
                 onDelete={onClickDeleteGame}
                 onSave={handleSaveGame}
                 errorMsg={errorMsg}
-                selectedEntity={selectedGame}
+                selectedEntity={getSelectedGameForForm()}
                 validateFn={validateGame}
                 entityLabel="Juego"
             />

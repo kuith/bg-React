@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import Paper from "@mui/material/Paper";
 import { GamesContext } from "../../../context/GamesContext";
+import { AuthorsContext } from "../../../context/AuthorsContext";
 import { getGamesById, createGame, deleteGames, updateGame } from "../../../api/gamesService";
 import { ActualDate } from "../../../utils/validations";
 import DashGames from "../../dashboard/dash-games/dash-games";
@@ -8,6 +9,7 @@ import { processGames } from "../../../utils/processors";
 
 const DashboardGamesSection = () => {
     const { games, fetchGames } = useContext(GamesContext);
+    const { authors } = useContext(AuthorsContext);
     const [selectedGame, setSelectedGame] = useState();
     const [errorMsg, setErrorMsg] = useState("");
 
@@ -47,6 +49,11 @@ const DashboardGamesSection = () => {
             if (dataGame.id && !dataGame.fecha_registro && selectedGame?.fecha_registro) {
                 dataGame.fecha_registro = selectedGame.fecha_registro;
             }
+
+            if (Array.isArray(dataGame.autores)) {
+                dataGame.autores = dataGame.autores.map(a => a.id ?? a);
+            }
+            console.log('DATA GAME AL GUARDAR:', dataGame);
             if (dataGame.id) {
                 await updateGame(dataGame.id, dataGame);
                 alert("Juego actualizado con éxito");
@@ -54,6 +61,7 @@ const DashboardGamesSection = () => {
                 await createGame(dataGame);
                 alert("Juego creado con éxito");
             }
+
             setErrorMsg("");
             setSelectedGame(null);
             await fetchGames();
@@ -68,6 +76,8 @@ const DashboardGamesSection = () => {
         <Paper>
             <DashGames
                 data={processGames(games)}
+                originalGame={games}
+                authors={authors}
                 onClickDeleteGame={onClickDeleteGame}
                 onClickUpdateGame={onClickUpdateGame}
                 handleSaveGame={handleSaveGame}
