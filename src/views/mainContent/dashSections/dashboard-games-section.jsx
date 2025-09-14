@@ -55,16 +55,18 @@ const DashboardGamesSection = () => {
             }
             console.log('DATA GAME AL GUARDAR:', dataGame);
             if (dataGame.id) {
-                await updateGame(dataGame.id, dataGame);
+                const updateResponse = await updateGame(dataGame.id, dataGame);
+                console.log('RESPUESTA DEL UPDATE:', updateResponse);
                 alert("Juego actualizado con éxito");
+                await fetchGames(); // Recargar inmediatamente después de actualizar
             } else {
                 await createGame(dataGame);
                 alert("Juego creado con éxito");
+                await fetchGames(); // Recargar inmediatamente después de crear
             }
 
             setErrorMsg("");
             setSelectedGame(null);
-            await fetchGames();
         } catch (error) {
             setErrorMsg(error.message || "Error al guardar juego");
         }
