@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { formatDate, validateAuthor } from '../../../utils/validations';
 import DashEntity from '../../../components/dash/DashEntity';
+import { processAuthors } from '../../../utils/processors';
+import { getGamesByAuthors } from '../../../api/gamesService';
 import GenericDetailModal from '../../../components/common/GenericDetailModal';
 import Button from "@mui/material/Button";
 
@@ -27,15 +29,34 @@ const DashAuthors = ({
     const [openDetail, setOpenDetail] = useState(false);
     const [authorDetail, setAuthorDetail] = useState(null);
 
-    // Data con botón Detalles
-    const dataWithDetails = data.map(author => ({
+    // Procesar autores para asegurar que 'juegos' es string de nombres
+    const processedAuthors = processAuthors(data);
+    const dataWithDetails = processedAuthors.map(author => ({
         ...author,
         detalles: (
             <Button
                 size="small"
                 variant="outlined"
-                onClick={() => {
-                    setAuthorDetail(author);
+                onClick={async () => {
+                    // Consulta los juegos del autor al abrir el modal
+                    let juegos = "No disponible";
+                    try {
+                        const res = await getGamesByAuthors(author.id);
+                        console.log('Respuesta getGamesByAuthors:', res);
+                        if (Array.isArray(res)) {
+                            // Si la API devuelve array directamente
+                            juegos = res.map(j => j.nombre).join(", ");
+                        } else if (Array.isArray(res.data)) {
+                            juegos = res.data.map(j => j.nombre).join(", ");
+                        } else if (Array.isArray(res.games)) {
+                            juegos = res.games.map(j => j.nombre).join(", ");
+                        } else {
+                            juegos = JSON.stringify(res);
+                        }
+                    } catch (e) {
+                        console.error('Error getGamesByAuthors:', e);
+                    }
+                    setAuthorDetail({ ...author, juegos });
                     setOpenDetail(true);
                 }}
             >
@@ -54,7 +75,8 @@ const DashAuthors = ({
     const labelMap = {
         nombre: "Nombre",
         nacionalidad: "Nacionalidad",
-        detalles: "Detalles"
+        detalles: "Detalles",
+        juegos: "Juegos"
     };
 
     return (
