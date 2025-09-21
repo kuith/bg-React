@@ -64,9 +64,16 @@ const AuthorsContainer = () => {
                     entityName={authorEntity}
                     label={authorLabel}
                 />
-                <Typography variant="h5" align="center" gutterBottom>
-                    Juegos de {" "}
-                    {selectedAuthor?.nombre || "ningún autor seleccionado"}
+                <Typography 
+                    variant="h6" 
+                    align="center" 
+                    gutterBottom 
+                    sx={{ color: 'text.secondary', fontStyle: 'italic' }}
+                >
+                    {selectedAuthor?.nombre 
+                        ? `Juegos de ${selectedAuthor.nombre}` 
+                        : "Seleccione un autor para ver sus juegos"
+                    }
                 </Typography>
                 <AuthorsGamesTable
                     games={processedGames}

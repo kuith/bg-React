@@ -48,6 +48,8 @@ function App() {
                   display: "flex",
                   flexDirection: "column",
                   minHeight: "100vh",
+                  // Fondo sutil y elegante
+                  background: "linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)",
                 }}
             >
                 <Header 
@@ -64,6 +66,12 @@ function App() {
                     padding: "12px",
                     display: "flex",
                     justifyContent: "center",
+                    // Fondo blanco para el contenido
+                    backgroundColor: "rgba(255, 255, 255, 0.9)",
+                    borderRadius: { xs: 0, md: "8px 8px 0 0" },
+                    margin: { xs: 0, md: "0 auto" },
+                    maxWidth: { xs: "100%", md: "lg" },
+                    boxShadow: { xs: "none", md: "0 -2px 10px rgba(0,0,0,0.1)" }
                   }}
               >
                 <Routes>

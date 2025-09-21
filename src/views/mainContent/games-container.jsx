@@ -88,9 +88,16 @@ const GamesContainer = () => {
                     entityName={gamesEntity}
                     label={gamesLabel}
                 />
-                <Typography variant="h5" align="center" gutterBottom>
-                    Juegos de {" "}
-                    {selectedGame?.nombre || "ningún juego seleccionado"}
+                <Typography 
+                    variant="h6" 
+                    align="center" 
+                    gutterBottom 
+                    sx={{ color: 'text.secondary', fontStyle: 'italic' }}
+                >
+                    {selectedGame?.nombre 
+                        ? `Información del juego: ${selectedGame.nombre}` 
+                        : "Seleccione un juego para ver sus detalles"
+                    }
                 </Typography>
 
                 {gameDetailDialog}

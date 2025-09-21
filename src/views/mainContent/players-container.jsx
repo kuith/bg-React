@@ -63,9 +63,16 @@ const PlayersContainer = () => {
                     entityName={playerEntity}
                     label={playerLabel}
                 />
-                <Typography variant="h5" align="center" gutterBottom>
-                    Partidas de{" "}
-                    {selectedPlayer?.nombre || "ningún jugador seleccionado"}
+                <Typography 
+                    variant="h6" 
+                    align="center" 
+                    gutterBottom 
+                    sx={{ color: 'text.secondary', fontStyle: 'italic' }}
+                >
+                    {selectedPlayer?.nombre 
+                        ? `Partidas de ${selectedPlayer.nombre}` 
+                        : "Seleccione un jugador para ver sus partidas"
+                    }
                 </Typography>
                 <PlayerMatchesTable
                     matches={matches}

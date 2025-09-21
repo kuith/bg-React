@@ -3,9 +3,14 @@
   display: none;
 } */
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Lato', 'Roboto', sans-serif;
 /*     scrollbar-width: none; /* Para Firefox
     -ms-overflow-style: none; /* Para Internet Explorer */
+}
+
+/* Definir la tipografía para toda la aplicación */
+* {
+    font-family: 'Lato', 'Roboto', sans-serif;
 }
 
 .img-portada {

@@ -84,7 +84,6 @@ const MatchesContainer = () => {
                     Partidas
                 </Typography>
 
-
                <MatchesTable
                    data={processedMatches}
                    onClick={(id) => onClickForDetails(id)}
@@ -92,6 +91,11 @@ const MatchesContainer = () => {
                    entityName={matchesEntity}
                    label={matchesLabel}
                />
+               
+               <Typography variant="h6" align="center" gutterBottom sx={{ color: 'text.secondary', fontStyle: 'italic' }}>
+                    Seleccione una partida para ver sus detalles
+               </Typography>
+               
                {matchesDetailDialog}
             </Stack>
         </Box>
