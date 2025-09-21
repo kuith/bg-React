@@ -5,6 +5,7 @@ import { Box, CssBaseline, Container, Typography } from "@mui/material";
 import Header from "./views/header/header";
 import Footer from "./views/footer/footer";
 import Login from "./views/login/login";
+import LandingPage from "./views/landing/LandingPage";
 
 import Players from "./views/mainContent/players-container";
 import Authors from "./views/mainContent/authors-container";
@@ -36,7 +37,7 @@ function App() {
     <BrowserRouter>
       <PlayersProvider>
           {!user ? (
-              <Login onLogin={setUser} />
+              <LandingPage onLogin={setUser} />
           ) : (
       <AuthorsProvider>
         <GamesProvider>
