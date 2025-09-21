@@ -95,7 +95,7 @@ const NavList = ({ ...props }) => {
     );
   };
 
-  const Header = ({onLogout}) => {
+  const Header = ({user, onLogout}) => {
     return (
         <AppBar position="static">
             <Container maxWidth="lg">
@@ -108,7 +108,15 @@ const NavList = ({ ...props }) => {
                     >
                         <Typography variant="h6">Juegos de Mesa</Typography>
                         <Nav />
-                        <ExitToAppOutlinedIcon onClick={onLogout}/>
+                        <Stack direction="row" alignItems="center" spacing={2}>
+                            <Typography variant="body1" sx={{ color: "white" }}>
+                                Hola, {user?.nombre || 'Usuario'}
+                            </Typography>
+                            <ExitToAppOutlinedIcon 
+                                onClick={onLogout}
+                                sx={{ cursor: "pointer" }}
+                            />
+                        </Stack>
                     </Stack>
                 </Toolbar>
             </Container>

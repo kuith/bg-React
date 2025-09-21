@@ -59,11 +59,13 @@ const Login = ({ onLogin }) => {
         <TextField
           required
           label="Nombre"
+          value={nombre}
           onChange={(e) => setNombre(e.target.value)}
         />
         <TextField
           required
           label="Correo"
+          value={correo}
           onChange={(e) => setCorreo(e.target.value)}
         />
         <Button
@@ -74,6 +76,25 @@ const Login = ({ onLogin }) => {
           Entrar
         </Button>
         {error && <div style={{ color: "red" }}>{error}</div>}
+        
+        {/* Botón de acceso de invitado */}
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={() => {
+            setNombre("invitado");
+            setCorreo("invitado@correo.com");
+          }}
+          sx={{
+            marginTop: 2,
+            backgroundColor: "#6c757d",
+            "&:hover": {
+              backgroundColor: "#5a6268"
+            }
+          }}
+        >
+          Usar credenciales de invitado
+        </Button>
       </FormControl>
     </Box>
   );

@@ -49,11 +49,14 @@ function App() {
                   minHeight: "100vh",
                 }}
             >
-                <Header onLogout={() => {
-                  sessionStorage.removeItem("user");
-                  console.log("User logged out");
-                  setUser(null);
-                }} />
+                <Header 
+                  user={user}
+                  onLogout={() => {
+                    sessionStorage.removeItem("user");
+                    console.log("User logged out");
+                    setUser(null);
+                  }} 
+                />
               <Container
                   sx={{
                     flexGrow: 1,
