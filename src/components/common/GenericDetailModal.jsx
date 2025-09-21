@@ -47,12 +47,12 @@ const GenericDetailModal = ({
       </DialogContent>
       <DialogActions>
         {onEdit && (
-          <Button variant="contained" color="primary" onClick={onEdit}>
+          <Button variant="outlined" color="primary" onClick={onEdit}>
             Editar
           </Button>
         )}
         {onDelete && (
-          <Button variant="contained" color="error" onClick={onDelete}>
+          <Button variant="outlined" color="error" onClick={onDelete}>
             Borrar
           </Button>
         )}

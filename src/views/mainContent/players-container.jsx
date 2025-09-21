@@ -21,7 +21,7 @@ const PlayersContainer = () => {
     const playerColumns = ["Nombre", "Correo", "Rol"];
     const playerEntity = "Jugador";
     const playerLabel = "Partidas";
-    const matchesColumns =  ["Juego", "Participantes", "Ganadores"];
+    const matchesColumns =  ["Juego", "Jugadores", "Ganadores"];
     const matchesEntity = "Partida";
     const matchesLabel = "Detalles";
 

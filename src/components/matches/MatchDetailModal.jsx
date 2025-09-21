@@ -7,11 +7,9 @@ import {
   Button,
   Typography,
   Box,
-  Chip,
   IconButton,
   Divider
 } from '@mui/material';
-import InfoIcon from '@mui/icons-material/Info';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
@@ -60,79 +58,50 @@ const MatchDetailModal = ({
 
           <Divider sx={{ my: 2 }} />
 
-          {/* Juego (clickeable) */}
+          {/* Juego */}
           <Box sx={{ mb: 2 }}>
             <Typography variant="subtitle2" color="primary">
               Juego:
             </Typography>
-            <Box display="flex" alignItems="center" gap={1}>
-              <Typography variant="body1">
-                {match.juego?.nombre || 'No especificado'}
-              </Typography>
-              {match.juego && onGameDetail && (
-                <IconButton 
-                  size="small" 
-                  onClick={() => onGameDetail(match.juego)}
-                  title="Ver detalles del juego"
-                >
-                  <InfoIcon fontSize="small" />
-                </IconButton>
-              )}
-            </Box>
+            <Typography variant="body1">
+              {match.juego?.nombre || 'No especificado'}
+            </Typography>
           </Box>
 
           <Divider sx={{ my: 2 }} />
 
-          {/* Jugadores (clickeables) */}
+          {/* Jugadores */}
           <Box sx={{ mb: 2 }}>
             <Typography variant="subtitle2" color="primary">
               Jugadores:
             </Typography>
-            <Box sx={{ mt: 1, display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-              {Array.isArray(match.jugadores) && match.jugadores.length > 0 ? (
-                match.jugadores.map((jugador) => (
-                  <Chip
-                    key={jugador.id}
-                    label={jugador.nombre}
-                    variant="outlined"
-                    onClick={onPlayerDetail ? () => onPlayerDetail(jugador) : undefined}
-                    clickable={!!onPlayerDetail}
-                    icon={onPlayerDetail ? <InfoIcon fontSize="small" /> : undefined}
-                  />
-                ))
-              ) : (
-                <Typography variant="body2" color="text.secondary">
-                  No hay jugadores registrados
-                </Typography>
-              )}
-            </Box>
+            {Array.isArray(match.jugadores) && match.jugadores.length > 0 ? (
+              <Typography variant="body1" sx={{ mt: 1 }}>
+                {match.jugadores.map(j => j.nombre).join(', ')}
+              </Typography>
+            ) : (
+              <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+                No hay jugadores registrados
+              </Typography>
+            )}
           </Box>
 
           <Divider sx={{ my: 2 }} />
 
-          {/* Ganadores (clickeables) */}
+          {/* Ganadores */}
           <Box sx={{ mb: 2 }}>
             <Typography variant="subtitle2" color="primary">
               Ganadores:
             </Typography>
-            <Box sx={{ mt: 1, display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-              {Array.isArray(match.ganadores) && match.ganadores.length > 0 ? (
-                match.ganadores.map((ganador) => (
-                  <Chip
-                    key={ganador.id}
-                    label={ganador.nombre}
-                    color="success"
-                    onClick={onPlayerDetail ? () => onPlayerDetail(ganador) : undefined}
-                    clickable={!!onPlayerDetail}
-                    icon={onPlayerDetail ? <InfoIcon fontSize="small" /> : undefined}
-                  />
-                ))
-              ) : (
-                <Typography variant="body2" color="text.secondary">
-                  No hay ganadores registrados
-                </Typography>
-              )}
-            </Box>
+            {Array.isArray(match.ganadores) && match.ganadores.length > 0 ? (
+              <Typography variant="body1" sx={{ mt: 1 }}>
+                {match.ganadores.map(g => g.nombre).join(', ')}
+              </Typography>
+            ) : (
+              <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+                No hay ganadores registrados
+              </Typography>
+            )}
           </Box>
         </Box>
       </DialogContent>
