@@ -46,6 +46,8 @@ const PlayersContainer = () => {
         }
     };
 
+    // (revert) Sin auto-carga desde navegación
+
     if (loading) return <p>Cargando...</p>;
 
     return (

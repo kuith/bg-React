@@ -85,5 +85,5 @@ export const getWinnersByGame = async (juegoId) => {
 
 export const createMatch = (matchData) => api.post("/matches/", matchData);
 export const updateMatch = (id, matchData) =>
-    api.put(`/matches/${id}`, matchData);
+    api.patch(`/matches/${id}`, matchData);
 export const deleteMatch = (id) => api.del(`/matches/${id}`);

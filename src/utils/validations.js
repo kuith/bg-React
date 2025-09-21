@@ -47,3 +47,26 @@ export const validateGame = (form, isEdit = false) => {
   // Puedes agregar más validaciones aquí si lo necesitas
   return null;
 };
+
+export const validateMatch = (form, isEdit = false) => {
+  // Verificar campos básicos obligatorios
+  if (!form.juego_id || !form.fecha || !Array.isArray(form.jugadores_ids) || form.jugadores_ids.length === 0) {
+    return "Todos los campos obligatorios deben estar rellenos";
+  }
+  
+  // Verificar que hay al menos un ganador
+  if (!Array.isArray(form.ganadores_ids) || form.ganadores_ids.length === 0) {
+    return "Debe haber al menos un ganador";
+  }
+  
+  // Verificar que todos los ganadores están entre los jugadores
+  const jugadoresIds = form.jugadores_ids.map(j => typeof j === 'object' ? j.id : j);
+  const ganadoresIds = form.ganadores_ids.map(g => typeof g === 'object' ? g.id : g);
+  
+  const ganadoresInvalidos = ganadoresIds.filter(ganadorId => !jugadoresIds.includes(ganadorId));
+  if (ganadoresInvalidos.length > 0) {
+    return "Los ganadores deben estar entre los jugadores de la partida";
+  }
+  
+  return null;
+};

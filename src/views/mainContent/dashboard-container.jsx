@@ -14,7 +14,7 @@ import DashPlayers from "../dashboard/dash-players/dash-players";
 import DashboardPlayersSection from "./dashSections/dashboard-players-section";
 import DashboardAuthorsSection from "./dashSections/dashboard-authors-section";
 import DashboardGamesSection from "./dashSections/dashboard-games-section";
-//import DashboardMatchesSection from "./dashSections/dashboard-matches-section";
+import DashboardMatchesSection from "./dashSections/dashboard-matches-section";
 
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -73,9 +73,7 @@ const DashboardContainer = () => {
                                 <Typography variant="h6">Partidas</Typography>
                             </AccordionSummary>
                             <AccordionDetails>
-                                <Paper sx={{ p: 2 }}>
-                                    <DashMatches />
-                                </Paper>
+                                <DashboardMatchesSection />
                             </AccordionDetails>
                         </Accordion>
                     </Grid>
