@@ -76,7 +76,7 @@ const Login = ({ onLogin, isModal = false }) => {
         onClick={handleSubmit}
         sx={{
           mt: 1,
-          backgroundColor: "#1976d2",
+          backgroundColor: "#0d47a1", // Azul marino elegante
           "&:hover": {
             backgroundColor: "#1565c0"
           }
@@ -104,11 +104,11 @@ const Login = ({ onLogin, isModal = false }) => {
         }}
         sx={{
           mt: 1,
-          color: "#6c757d",
-          borderColor: "#6c757d",
+          color: "#f39c12", // Dorado elegante
+          borderColor: "#f39c12",
           "&:hover": {
-            backgroundColor: "#f8f9fa",
-            borderColor: "#5a6268"
+            backgroundColor: "rgba(243, 156, 18, 0.08)",
+            borderColor: "#e67e22"
           }
         }}
       >

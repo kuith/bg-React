@@ -6,19 +6,19 @@ const Footer = () => {
         <Box
             component="footer"
             sx={{
-                backgroundColor: "#1976d2",
+                backgroundColor: "#0d47a1", // Azul marino elegante
                 color: "white",
-                py: 1.5, // Reducido de 3 a 1.5
+                py: 1.5,
                 mt: "auto",
                 borderTop: "1px solid rgba(255, 255, 255, 0.1)"
             }}
         >
             <Container maxWidth="lg">
                 <Typography
-                    variant="body2" // Cambiado de body1 a body2
+                    variant="body2"
                     align="center"
                     sx={{
-                        fontSize: { xs: "0.8rem", md: "0.85rem" } // Reducido el tamaño
+                        fontSize: { xs: "0.8rem", md: "0.85rem" }
                     }}
                 >
                     Desarrollado por{" "}
@@ -26,7 +26,7 @@ const Footer = () => {
                         component="span"
                         sx={{
                             fontWeight: "bold",
-                            color: "#ffeb3b"
+                            color: "#f39c12" // Dorado elegante
                         }}
                     >
                         Rafael Santamaría
@@ -39,7 +39,7 @@ const Footer = () => {
                             color: "white",
                             textDecoration: "none",
                             "&:hover": {
-                                color: "#ffeb3b",
+                                color: "#f39c12", // Dorado en hover
                                 textDecoration: "underline"
                             },
                             transition: "all 0.2s ease"
@@ -47,7 +47,7 @@ const Footer = () => {
                     >
                         kuithsteam@gmail.com
                     </Box>
-                    {" "}• © {new Date().getFullYear()} {/* Movido a la misma línea */}
+                    {" "}• © {new Date().getFullYear()}
                 </Typography>
             </Container>
         </Box>

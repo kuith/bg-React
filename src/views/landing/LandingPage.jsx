@@ -43,8 +43,8 @@ const LandingPage = ({ onLogin }) => {
         background: `
           linear-gradient(
             135deg, 
-            rgba(25, 118, 210, 0.8) 0%, 
-            rgba(123, 31, 162, 0.7) 100%
+            rgba(13, 71, 161, 0.85) 0%, 
+            rgba(55, 71, 79, 0.75) 100%
           ),
           url(${baseUrl}portada01.jpg)
         `,
@@ -112,18 +112,18 @@ const LandingPage = ({ onLogin }) => {
           size="large"
           onClick={handleOpenLogin}
           sx={{
-            backgroundColor: "rgba(255, 235, 59, 0.95)",
-            color: "#000",
+            backgroundColor: "#f39c12", // Dorado elegante
+            color: "#fff",
             fontWeight: "bold",
             px: { xs: 4, md: 6 },
             py: { xs: 1.5, md: 2 },
             fontSize: { xs: "1rem", md: "1.2rem" },
             borderRadius: 3,
-            boxShadow: "0 4px 20px rgba(0,0,0,0.3)",
+            boxShadow: "0 4px 20px rgba(243, 156, 18, 0.3)",
             "&:hover": {
-              backgroundColor: "rgba(255, 193, 7, 0.95)",
+              backgroundColor: "#e67e22", // Dorado más oscuro en hover
               transform: "translateY(-3px)",
-              boxShadow: "0 8px 30px rgba(0,0,0,0.4)"
+              boxShadow: "0 8px 30px rgba(243, 156, 18, 0.4)"
             },
             transition: "all 0.3s ease"
           }}

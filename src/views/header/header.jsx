@@ -97,7 +97,12 @@ const NavList = ({ ...props }) => {
 
   const Header = ({user, onLogout}) => {
     return (
-        <AppBar position="static">
+        <AppBar 
+            position="static"
+            sx={{ 
+                backgroundColor: "#0d47a1" // Azul marino elegante
+            }}
+        >
             <Container maxWidth="lg">
                 <Toolbar>
                     <Stack
