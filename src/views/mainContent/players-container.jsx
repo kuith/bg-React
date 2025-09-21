@@ -7,6 +7,7 @@ import PlayerMatchesTable from "./mainPlayers/view-table-players-matches";
 import { getMatchesByPlayer } from "../../api/matchesService";
 import { processMatches } from "../../utils/processors";
 import { getPlayerById } from "../../api/playersService";
+import LoadingSpinner from "../../components/common/LoadingSpinner";
 
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
@@ -48,7 +49,14 @@ const PlayersContainer = () => {
 
     // (revert) Sin auto-carga desde navegación
 
-    if (loading) return <p>Cargando...</p>;
+    if (loading) {
+        return (
+            <LoadingSpinner 
+                message="Cargando jugadores..." 
+                size={70}
+            />
+        );
+    }
 
     return (
         <Box sx={{ width: "100%" }}>

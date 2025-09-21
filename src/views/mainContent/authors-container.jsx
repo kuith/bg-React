@@ -9,6 +9,7 @@ import { getAuthorById } from "../../api/authorsService";
 import { processGames } from "../../utils/processors";
 import AuthorsTable from "../../components/authors/comp-authors-table";
 import AuthorsGamesTable from "./mainAuthors/view-table-authors-games";
+import LoadingSpinner from "../../components/common/LoadingSpinner";
 
 const AuthorsContainer = () => {
     const { authors, loading } = useContext(AuthorsContext);
@@ -48,7 +49,14 @@ const AuthorsContainer = () => {
         }
     };
 
-    if (loading) return <p>Cargando...</p>;
+    if (loading) {
+        return (
+            <LoadingSpinner 
+                message="Cargando autores..." 
+                size={70}
+            />
+        );
+    }
     const processedGames = processGames(games);
     return (
         <Box sx={{ width: "100%" }}>

@@ -9,6 +9,7 @@ import { GamesContext } from "../../context/GamesContext";
 import { processGames } from "../../utils/processors";
 import GamesTable from "../../components/games/comp-games-table";
 import GameDetailCard from "../../components/games/GameDetailCard";
+import LoadingSpinner from "../../components/common/LoadingSpinner";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -50,14 +51,21 @@ const GamesContainer = () => {
     };
 
 
-    if (loading) return <p>Cargando...</p>;
+    if (loading) {
+        return (
+            <LoadingSpinner 
+                message="Cargando juegos..." 
+                size={70}
+            />
+        );
+    }
 
     // Normalizar los datos para asegurar que 'descripcion' siempre está presente
     const processedGames = processGames(games);
 
 
     const gameDetailDialog = (
-        <Dialog open={!!selectedGame} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
+        <Dialog open={!!selectedGame || loadingGames} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
             <DialogTitle>
                 Detalles del juego
                 <IconButton
@@ -69,7 +77,14 @@ const GamesContainer = () => {
                 </IconButton>
             </DialogTitle>
             <DialogContent dividers>
-                <GameDetailCard game={selectedGame} />
+                {loadingGames ? (
+                    <LoadingSpinner 
+                        message="Cargando detalles del juego..." 
+                        size={50}
+                    />
+                ) : (
+                    <GameDetailCard game={selectedGame} />
+                )}
             </DialogContent>
         </Dialog>
     );

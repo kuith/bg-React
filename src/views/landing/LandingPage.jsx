@@ -112,18 +112,18 @@ const LandingPage = ({ onLogin }) => {
           size="large"
           onClick={handleOpenLogin}
           sx={{
-            backgroundColor: "#f39c12", // Dorado elegante
+            backgroundColor: "#1976d2", // Azul principal consistente
             color: "#fff",
             fontWeight: "bold",
             px: { xs: 4, md: 6 },
             py: { xs: 1.5, md: 2 },
             fontSize: { xs: "1rem", md: "1.2rem" },
             borderRadius: 3,
-            boxShadow: "0 4px 20px rgba(243, 156, 18, 0.3)",
+            boxShadow: "0 4px 20px rgba(25, 118, 210, 0.3)",
             "&:hover": {
-              backgroundColor: "#e67e22", // Dorado más oscuro en hover
+              backgroundColor: "#0d47a1", // Azul navy más oscuro en hover
               transform: "translateY(-3px)",
-              boxShadow: "0 8px 30px rgba(243, 156, 18, 0.4)"
+              boxShadow: "0 8px 30px rgba(13, 71, 161, 0.4)"
             },
             transition: "all 0.3s ease"
           }}

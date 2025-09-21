@@ -7,6 +7,7 @@ import { MatchesContext } from "../../context/MatchesContext";
 import MatchesTable from "../../components/matches/comp-matches-table";
 import MatchDetailCard from "../../components/matches/MatchDetailCard";
 import { processMatches } from "../../utils/processors";
+import LoadingSpinner from "../../components/common/LoadingSpinner";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -50,7 +51,14 @@ const MatchesContainer = () => {
         setSelectedMatch(null);
     };
 
-    if (loading) return <p>Cargando...</p>;
+    if (loading) {
+        return (
+            <LoadingSpinner 
+                message="Cargando partidas..." 
+                size={70}
+            />
+        );
+    }
 
     // Procesar los datos de partidas para aplanar objetos anidados
     // Asegurarse de que cada partida tiene un id válido
@@ -60,7 +68,7 @@ const MatchesContainer = () => {
     }));
 
     const matchesDetailDialog = (
-        <Dialog open={!!selectedMatch} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
+        <Dialog open={!!selectedMatch || loadingMatch} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
             <DialogTitle>
                 Detalles de la partida
                 <IconButton
@@ -72,7 +80,14 @@ const MatchesContainer = () => {
                 </IconButton>
             </DialogTitle>
             <DialogContent dividers>
-                <MatchDetailCard match={selectedMatch} />
+                {loadingMatch ? (
+                    <LoadingSpinner 
+                        message="Cargando detalles de la partida..." 
+                        size={50}
+                    />
+                ) : (
+                    <MatchDetailCard match={selectedMatch} />
+                )}
             </DialogContent>
         </Dialog>
     );
