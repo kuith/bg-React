@@ -8,12 +8,13 @@ export const GamesProvider = ({ children }) => {
     const [loading, setLoading] = useState(true); // Estado de carga
 
     const fetchGames = async () => {
+        setLoading(true);
         try {
             const data = await getAllGames();
-            console.log("Juegos obtenidos en el contexto:", data);
-            setGames(data);
+            setGames(data || []);
         } catch (error) {
             console.error("Error al cargar juegos en el contexto:", error);
+            setGames([]);
         } finally {
             setLoading(false);
         }
