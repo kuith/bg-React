@@ -8,12 +8,13 @@ export const MatchesProvider = ({ children }) => {
     const [loading, setLoading] = useState(true); // Estado de carga
 
     const fetchMatches = async () => {
+        setLoading(true);
         try {
             const data = await getAllMatches();
-            console.log("Partidas obtenidas en el contexto:", data);
-            setMatches(data);
+            setMatches(data || []);
         } catch (error) {
             console.error("Error al cargar partidas en el contexto:", error);
+            setMatches([]);
         } finally {
             setLoading(false);
         }

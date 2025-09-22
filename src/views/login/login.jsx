@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import { PlayersContext } from "../../context/PlayersContext";
 
 const Login = ({ onLogin, isModal = false }) => {
-  const { players } = useContext(PlayersContext);
+  const { players, loading } = useContext(PlayersContext);
   const [nombre, setNombre] = useState("");
   const [correo, setCorreo] = useState("");
   const [error, setError] = useState("");
@@ -17,10 +17,37 @@ const Login = ({ onLogin, isModal = false }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    
+    // Si aún se están cargando los datos, mostrar mensaje
+    if (loading) {
+      setError("Cargando datos, por favor espera...");
+      return;
+    }
+    
+    // Si no hay jugadores cargados, forzar reload igual que en App.jsx
+    if (!players || players.length === 0) {
+      const alreadyReloaded = sessionStorage.getItem('bgLoginReloaded');
+      
+      if (!alreadyReloaded) {
+        sessionStorage.setItem('bgLoginReloaded', 'true');
+        setError("Recargando datos...");
+        
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+        return;
+      } else {
+        setError("Datos no disponibles. Intenta de nuevo en unos segundos.");
+        return;
+      }
+    }
+    
     const usuario = players.find(
       (p) => p.nombre === nombre && p.correo === correo
     );
     if (usuario) {
+      // Limpiar marca de reload al hacer login exitoso
+      sessionStorage.removeItem('bgLoginReloaded');
       sessionStorage.setItem("user", JSON.stringify(usuario));
       onLogin(usuario);
       if (!isModal) {
@@ -74,6 +101,7 @@ const Login = ({ onLogin, isModal = false }) => {
         type="submit"
         variant="contained"
         onClick={handleSubmit}
+        disabled={loading}
         sx={{
           mt: 1,
           backgroundColor: "#0d47a1", // Azul marino elegante
@@ -82,7 +110,7 @@ const Login = ({ onLogin, isModal = false }) => {
           }
         }}
       >
-        Entrar
+        {loading ? "Cargando..." : "Entrar"}
       </Button>
       {error && (
         <Typography 
@@ -92,6 +120,17 @@ const Login = ({ onLogin, isModal = false }) => {
           sx={{ mt: 1 }}
         >
           {error}
+        </Typography>
+      )}
+      
+      {loading && !error && (
+        <Typography 
+          variant="body2" 
+          color="primary" 
+          align="center"
+          sx={{ mt: 1 }}
+        >
+          Cargando usuarios...
         </Typography>
       )}
       

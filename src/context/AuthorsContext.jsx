@@ -9,15 +9,16 @@ export const AuthorsProvider = ({ children }) => {
 
     // Definir fetchAuthors fuera del useEffect para exponerlo
     const fetchAuthors = async () => {
+        setLoading(true);
         try {
             const data = await getAllAuthors(); // Llama al servicio
-            console.log("Autores obtenidos en el contexto:", data); // Verifica los datos
-            setAuthors(data); // Actualiza el estado con los datos obtenidos
+            setAuthors(data || []); // Actualiza el estado con los datos obtenidos
         } catch (error) {
             console.error(
                 "Error al cargar autores en el contexto:",
                 error
             );
+            setAuthors([]);
         } finally {
             setLoading(false); // Finaliza el estado de carga
         }

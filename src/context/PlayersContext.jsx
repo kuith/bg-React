@@ -12,9 +12,10 @@ export const PlayersProvider = ({ children }) => {
         setLoading(true);
         try {
             const data = await getAllPlayers();
-            setPlayers(data);
+            setPlayers(data || []);
         } catch (error) {
             console.error("Error al cargar jugadores:", error);
+            setPlayers([]);
         } finally {
             setLoading(false);
         }

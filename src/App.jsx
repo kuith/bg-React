@@ -22,18 +22,43 @@ import { MatchesProvider, MatchesContext } from "./context/MatchesContext";
 
 // Componente que maneja el loading global de los contextos
 const AppContent = ({ user, onLogout }) => {
-  const { loading: playersLoading } = useContext(PlayersContext);
-  const { loading: authorsLoading } = useContext(AuthorsContext);
-  const { loading: gamesLoading } = useContext(GamesContext);
-  const { loading: matchesLoading } = useContext(MatchesContext);
+  const { loading: playersLoading, players } = useContext(PlayersContext);
+  const { loading: authorsLoading, authors } = useContext(AuthorsContext);
+  const { loading: gamesLoading, games } = useContext(GamesContext);
+  const { loading: matchesLoading, matches } = useContext(MatchesContext);
+  
+  const [hasInitiallyLoaded, setHasInitiallyLoaded] = useState(false);
 
   // Mostrar loading mientras cualquier contexto esté cargando
   const isGlobalLoading = playersLoading || authorsLoading || gamesLoading || matchesLoading;
 
+  useEffect(() => {
+    // Cuando termine la carga inicial y no haya datos, forzar recarga
+    if (!isGlobalLoading && !hasInitiallyLoaded) {
+      setHasInitiallyLoaded(true);
+      
+      const hasData = (players?.length > 0) || (authors?.length > 0) || (games?.length > 0) || (matches?.length > 0);
+      
+      // Verificar si ya se hizo el force reload en esta sesión
+      const alreadyReloaded = sessionStorage.getItem('bgAppReloaded');
+      
+      // Si no hay datos después de la carga inicial y no se ha hecho reload, forzar recarga
+      if (!hasData && !alreadyReloaded) {
+        // Marcar que ya se hizo el reload para evitar bucle infinito
+        sessionStorage.setItem('bgAppReloaded', 'true');
+        
+        // Delay para asegurar que se complete todo
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      }
+    }
+  }, [isGlobalLoading, hasInitiallyLoaded, players, authors, games, matches]);
+
   if (isGlobalLoading) {
     return (
       <LoadingSpinner 
-        message="Preparando la aplicación..." 
+        message="Cargando datos de la aplicación..." 
         size={80}
         fullScreen={true}
       />
@@ -107,6 +132,10 @@ function App() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
+    // Limpiar marcas de reload al inicio de cada sesión
+    sessionStorage.removeItem('bgAppReloaded');
+    sessionStorage.removeItem('bgLoginReloaded');
+    
     //const storedUser = localStorage.getItem("user");
     const storedUser = sessionStorage.getItem("user");
     if (storedUser) {
@@ -116,24 +145,25 @@ function App() {
 
   const handleLogout = () => {
     sessionStorage.removeItem("user");
-    console.log("User logged out");
+    sessionStorage.removeItem("bgAppReloaded");
+    sessionStorage.removeItem("bgLoginReloaded");
     setUser(null);
   };
 
   return (
     <BrowserRouter>
       <PlayersProvider>
-        {!user ? (
-          <LandingPage onLogin={setUser} />
-        ) : (
-          <AuthorsProvider>
-            <GamesProvider>
-              <MatchesProvider>
+        <AuthorsProvider>
+          <GamesProvider>
+            <MatchesProvider>
+              {!user ? (
+                <LandingPage onLogin={setUser} />
+              ) : (
                 <AppContent user={user} onLogout={handleLogout} />
-              </MatchesProvider>
-            </GamesProvider>
-          </AuthorsProvider>
-        )}
+              )}
+            </MatchesProvider>
+          </GamesProvider>
+        </AuthorsProvider>
       </PlayersProvider>
     </BrowserRouter>
   );
