@@ -7,7 +7,6 @@ export const PlayersProvider = ({ children }) => {
     const [players, setPlayers] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    // Define fetchPlayers
     const fetchPlayers = async () => {
         setLoading(true);
         try {

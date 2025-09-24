@@ -4,8 +4,8 @@ import { getAllGames } from "../api/gamesService";
 export const GamesContext = createContext();
 
 export const GamesProvider = ({ children }) => {
-    const [games, setGames] = useState([]); // Estado inicial vacío
-    const [loading, setLoading] = useState(true); // Estado de carga
+    const [games, setGames] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const fetchGames = async () => {
         setLoading(true);

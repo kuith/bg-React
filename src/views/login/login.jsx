@@ -1,4 +1,3 @@
-// filepath: [home.jsx](http://_vscodecontentref_/2)
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box } from "@mui/material";
@@ -18,13 +17,11 @@ const Login = ({ onLogin, isModal = false }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    // Si aún se están cargando los datos, mostrar mensaje
     if (loading) {
       setError("Cargando datos, por favor espera...");
       return;
     }
     
-    // Si no hay jugadores cargados, forzar reload igual que en App.jsx
     if (!players || players.length === 0) {
       const alreadyReloaded = sessionStorage.getItem('bgLoginReloaded');
       
@@ -46,7 +43,6 @@ const Login = ({ onLogin, isModal = false }) => {
       (p) => p.nombre === nombre && p.correo === correo
     );
     if (usuario) {
-      // Limpiar marca de reload al hacer login exitoso
       sessionStorage.removeItem('bgLoginReloaded');
       sessionStorage.setItem("user", JSON.stringify(usuario));
       onLogin(usuario);
@@ -104,7 +100,7 @@ const Login = ({ onLogin, isModal = false }) => {
         disabled={loading}
         sx={{
           mt: 1,
-          backgroundColor: "#0d47a1", // Azul marino elegante
+          backgroundColor: "#0d47a1",
           "&:hover": {
             backgroundColor: "#1565c0"
           }
@@ -134,7 +130,6 @@ const Login = ({ onLogin, isModal = false }) => {
         </Typography>
       )}
       
-      {/* Botón de acceso de invitado */}
       <Button
         variant="outlined"
         onClick={() => {
@@ -143,7 +138,7 @@ const Login = ({ onLogin, isModal = false }) => {
         }}
         sx={{
           mt: 1,
-          color: "#f39c12", // Dorado elegante
+          color: "#f39c12",
           borderColor: "#f39c12",
           "&:hover": {
             backgroundColor: "rgba(243, 156, 18, 0.08)",

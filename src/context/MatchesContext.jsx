@@ -4,8 +4,8 @@ import { getAllMatches } from "../api/matchesService";
 export const MatchesContext = createContext();
 
 export const MatchesProvider = ({ children }) => {
-    const [matches, setMatches] = useState([]); // Estado inicial vacío
-    const [loading, setLoading] = useState(true); // Estado de carga
+    const [matches, setMatches] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const fetchMatches = async () => {
         setLoading(true);
