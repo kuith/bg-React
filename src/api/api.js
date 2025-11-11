@@ -1,4 +1,4 @@
-const API_URL = "https://bg-api-997t.onrender.com/api";
+const API_URL = import.meta.env.DEV ? "/api" : "https://bg-api-997t.onrender.com/api";
 
 const fetchData = async (endpoint, options = {}) => {
     const url = `${API_URL}${endpoint}`;

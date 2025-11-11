@@ -42,6 +42,7 @@ const Login = ({ onLogin, isModal = false }) => {
     const usuario = players.find(
       (p) => p.nombre === nombre && p.correo === correo
     );
+    
     if (usuario) {
       sessionStorage.removeItem('bgLoginReloaded');
       sessionStorage.setItem("user", JSON.stringify(usuario));
