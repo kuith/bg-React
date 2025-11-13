@@ -82,6 +82,17 @@ export const getPlayersByGame = async (gameId) => {
     }
 };
 
+// Login de usuario
+export const loginPlayer = async (correo, password) => {
+    try {
+        const response = await api.post("/players/login", { correo, password });
+        return response;
+    } catch (error) {
+        console.error("Error en login:", error);
+        throw error;
+    }
+};
+
 export const createPlayer = (playerData) => api.post("/players/", playerData);
 export const updatePlayer = (id, playerData) =>
     api.patch(`/players/${id}`, playerData);

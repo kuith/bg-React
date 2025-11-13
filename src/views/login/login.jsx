@@ -6,55 +6,46 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import FormControl from "@mui/material/FormControl";
 import Typography from '@mui/material/Typography';
-import { PlayersContext } from "../../context/PlayersContext";
+
+import { loginPlayer } from "../../api/playersService";
 
 const Login = ({ onLogin, isModal = false }) => {
-  const { players, loading } = useContext(PlayersContext);
-  const [nombre, setNombre] = useState("");
   const [correo, setCorreo] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Si aún se están cargando los datos, mostrar mensaje
-    if (loading) {
-      setError("Cargando datos, por favor espera...");
+    if (!correo || !password) {
+      setError("Email y contraseña son requeridos");
       return;
     }
     
-    // Si no hay jugadores cargados, forzar reload igual que en App.jsx
-    if (!players || players.length === 0) {
-      const alreadyReloaded = sessionStorage.getItem('bgLoginReloaded');
-      
-      if (!alreadyReloaded) {
-        sessionStorage.setItem('bgLoginReloaded', 'true');
-        setError("Recargando datos...");
-        
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
-        return;
-      } else {
-        setError("Datos no disponibles. Intenta de nuevo en unos segundos.");
-        return;
-      }
-    }
+    setLoading(true);
+    setError("");
     
-    const usuario = players.find(
-      (p) => p.nombre === nombre && p.correo === correo
-    );
-    if (usuario) {
-      // Limpiar marca de reload al hacer login exitoso
-      sessionStorage.removeItem('bgLoginReloaded');
+    try {
+      const usuario = await loginPlayer(correo, password);
+      
       sessionStorage.setItem("user", JSON.stringify(usuario));
       onLogin(usuario);
+      
       if (!isModal) {
         navigate("/players");
       }
-    } else {
-      setError("Usuario no encontrado");
+    } catch (error) {
+      if (error.message.includes('401')) {
+        setError("Email o contraseña incorrectos");
+      } else if (error.message.includes('400')) {
+        setError("Datos inválidos");
+      } else {
+        setError("Error de conexión. Intenta de nuevo.");
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -83,17 +74,19 @@ const Login = ({ onLogin, isModal = false }) => {
       </Typography>
       <TextField
         required
-        label="Nombre"
-        value={nombre}
-        onChange={(e) => setNombre(e.target.value)}
+        label="Email"
+        type="email"
+        value={correo}
+        onChange={(e) => setCorreo(e.target.value)}
         size={isModal ? "small" : "medium"}
         fullWidth
       />
       <TextField
         required
-        label="Correo"
-        value={correo}
-        onChange={(e) => setCorreo(e.target.value)}
+        label="Contraseña"
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
         size={isModal ? "small" : "medium"}
         fullWidth
       />
@@ -123,27 +116,18 @@ const Login = ({ onLogin, isModal = false }) => {
         </Typography>
       )}
       
-      {loading && !error && (
-        <Typography 
-          variant="body2" 
-          color="primary" 
-          align="center"
-          sx={{ mt: 1 }}
-        >
-          Cargando usuarios...
-        </Typography>
-      )}
+
       
       {/* Botón de acceso de invitado */}
       <Button
         variant="outlined"
         onClick={() => {
-          setNombre("invitado");
           setCorreo("invitado@correo.com");
+          setPassword("invitado123");
         }}
         sx={{
           mt: 1,
-          color: "#f39c12", // Dorado elegante
+          color: "#f39c12",
           borderColor: "#f39c12",
           "&:hover": {
             backgroundColor: "rgba(243, 156, 18, 0.08)",
