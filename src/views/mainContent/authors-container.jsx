@@ -1,84 +1,42 @@
-import React, { useContext, useState, useEffect } from "react";
-import Typography from "@mui/material/Typography";
-import Stack from "@mui/material/Stack";
-import Box from "@mui/material/Box";
-
+import React, { useContext } from "react";
 import { AuthorsContext } from "../../context/AuthorsContext";
+import GenericContainer from "../../components/common/GenericContainer";
 import { getGamesByAuthors } from "../../api/gamesService";
 import { getAuthorById } from "../../api/authorsService";
 import { processGames } from "../../utils/processors";
-import AuthorsTable from "../../components/authors/comp-authors-table";
-import AuthorsGamesTable from "./mainAuthors/view-table-authors-games";
 
 const AuthorsContainer = () => {
     const { authors, loading } = useContext(AuthorsContext);
-    const [selectedAuthor, setSelectedAuthor] = useState();
-    const [games, setGames] = useState([]);
-    const [loadingGames, setLoadingGames] = useState(false);
-    const [error, setError] = useState(null);
 
-    const authorsColumns = ["Nombre", "Nacionalidad"];
-    const authorEntity = "Autor";
-    const authorLabel = "Juegos";
-    const gamesColumns =  ["nombre", "tipo", "descripcion"];
-    const gamesEntity = "Juego";
-    const gamesLabel = "Detalles";
-
-    const reloadAuthor = async (authorId) => {
-        const author = await getAuthorById(authorId);
-        setSelectedAuthor(author);
-    };
-
-    const onClickForGames = async (authorId) => {
-        setLoadingGames(true);
-        setError(null);
-        console.log("Author ID clicked:", authorId);
-        try {
-            const data = await getGamesByAuthors(authorId);
-            console.log("Respuesta de la API getGamesByAuthors:", data);
-            const processedData = processGames(data);
-            console.log("Datos procesados para la tabla:", processedData);
-            setGames(processedData);
-            await reloadAuthor(authorId); 
-        } catch (error) {
-            setError("No se pudieron cargar los juegos.");
-            console.error("Error en onClickForGames:", error);
-        } finally {
-            setLoadingGames(false);
+    // Configuración SIMPLIFICADA - Una sola tabla genérica para todo
+    const containerConfig = {
+        main: {
+            title: "Autores",
+            entityName: "Autor", 
+            label: "Juegos",
+            columns: ["Nombre", "Nacionalidad"],
+            onClick: async (authorId) => {
+                const data = await getGamesByAuthors(authorId);
+                return data;
+            },
+            getEntityById: getAuthorById
+        },
+        secondary: {
+            title: (selectedAuthor) => 
+                `Juegos de ${selectedAuthor?.nombre || "ningún autor seleccionado"}`,
+            entityName: "Juego",
+            label: "Detalles", 
+            columns: ["nombre", "tipo", "descripcion"],
+            processor: processGames
         }
     };
 
-    if (loading) return <p>Cargando...</p>;
-    const processedGames = processGames(games);
     return (
-        <Box sx={{ width: "100%" }}>
-            <Stack spacing={2}>
-                <Typography variant="h5" align="center" gutterBottom>
-                    Autores
-                </Typography>
-
-                <AuthorsTable
-                    data={authors}
-                    onClick={(id) => onClickForGames(id)}
-                    tableColumns={authorsColumns}
-                    entityName={authorEntity}
-                    label={authorLabel}
-                />
-                <Typography variant="h5" align="center" gutterBottom>
-                    Juegos de {" "}
-                    {selectedAuthor?.nombre || "ningún autor seleccionado"}
-                </Typography>
-                <AuthorsGamesTable
-                    games={processedGames}
-                    loading={loadingGames}
-                    error={error}
-                    idAutor={selectedAuthor?.id || null}
-                    tableColumns={gamesColumns}
-                    entityName={gamesEntity}
-                    label={gamesLabel}
-                />
-            </Stack>
-        </Box>
+        <GenericContainer 
+            mainData={authors}
+            mainLoading={loading}
+            config={containerConfig}
+        />
     );
 };
 
