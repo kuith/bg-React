@@ -26,24 +26,38 @@ import { formatDate } from "./validations";
 // Procesa las partidas para la tabla de partidas
 const processMatches = (matches) => {
     if (!Array.isArray(matches)) return [];
-    return matches.map((match) => ({
-        id: match.id,
-        fecha: formatDate(match.fecha),
-        juego: match.juego?.nombre || "Sin juego",
-        jugadores: Array.isArray(match.jugadores) ? match.jugadores.map(j => j.nombre).join(", ") : "Sin jugadores",
-        ganadores: Array.isArray(match.ganadores) ? match.ganadores.map(g => g.nombre).join(", ") : "Sin ganadores",
-    }));
+    return matches.map((match, index) => {
+        // Crear un ID único basado en los datos de la partida + índice para evitar duplicados
+        const uniqueId = `${match.juego?.nombre || 'unknown'}_${match.jugadores?.map(j => j.nombre).join('')}_${match.ganadores?.map(g => g.nombre).join('')}_${index}`.replace(/\s/g, '');
+        
+        return {
+            id: match.id || match.match_id || match.partidaId || uniqueId, 
+            fecha: formatDate(match.fecha),
+            juego: match.juego?.nombre || "Sin juego",
+            jugadores: Array.isArray(match.jugadores) ? match.jugadores.map(j => j.nombre).join(", ") : "Sin jugadores",
+            ganadores: Array.isArray(match.ganadores) ? match.ganadores.map(g => g.nombre).join(", ") : "Sin ganadores",
+            // Guardamos los datos originales para usar en el modal
+            originalMatch: match
+        };
+    });
 };
 // Procesa los juegos para la tabla de juegos de autor
 const processGames = (games) => {
     if (!Array.isArray(games)) return [];
-    return games.map((game) => ({
-        id: game.id,
-        nombre: game.nombre,
-        tipo: game.tipo || game.type || "",
-        descripcion: game.descripcion || game.description || "",
-    anio_publicacion: game.anioPublicacion || 'No disponible',
-    }));
+    return games.map((game, index) => {
+        // Si no hay ID, crear uno único basado en los datos del juego
+        const uniqueId = game.id || `${game.nombre || 'unknown'}_${game.tipo || 'tipo'}_${index}`.replace(/\s/g, '');
+        
+        return {
+            id: uniqueId,
+            nombre: game.nombre,
+            tipo: game.tipo || game.type || "",
+            descripcion: game.descripcion || game.description || "",
+            anio_publicacion: game.anioPublicacion || 'No disponible',
+            // Guardamos los datos originales para usar en el modal
+            originalGame: game
+        };
+    });
 };
 
 

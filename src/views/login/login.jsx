@@ -1,3 +1,4 @@
+// filepath: [home.jsx](http://_vscodecontentref_/2)
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box } from "@mui/material";
@@ -5,53 +6,46 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import FormControl from "@mui/material/FormControl";
 import Typography from '@mui/material/Typography';
-import { PlayersContext } from "../../context/PlayersContext";
+
+import { loginPlayer } from "../../api/playersService";
 
 const Login = ({ onLogin, isModal = false }) => {
-  const { players, loading } = useContext(PlayersContext);
-  const [nombre, setNombre] = useState("");
   const [correo, setCorreo] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (loading) {
-      setError("Cargando datos, por favor espera...");
+    if (!correo || !password) {
+      setError("Email y contraseña son requeridos");
       return;
     }
     
-    if (!players || players.length === 0) {
-      const alreadyReloaded = sessionStorage.getItem('bgLoginReloaded');
+    setLoading(true);
+    setError("");
+    
+    try {
+      const usuario = await loginPlayer(correo, password);
       
-      if (!alreadyReloaded) {
-        sessionStorage.setItem('bgLoginReloaded', 'true');
-        setError("Recargando datos...");
-        
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
-        return;
-      } else {
-        setError("Datos no disponibles. Intenta de nuevo en unos segundos.");
-        return;
-      }
-    }
-    
-    const usuario = players.find(
-      (p) => p.nombre === nombre && p.correo === correo
-    );
-    
-    if (usuario) {
-      sessionStorage.removeItem('bgLoginReloaded');
       sessionStorage.setItem("user", JSON.stringify(usuario));
       onLogin(usuario);
+      
       if (!isModal) {
         navigate("/players");
       }
-    } else {
-      setError("Usuario no encontrado");
+    } catch (error) {
+      if (error.message.includes('401')) {
+        setError("Email o contraseña incorrectos");
+      } else if (error.message.includes('400')) {
+        setError("Datos inválidos");
+      } else {
+        setError("Error de conexión. Intenta de nuevo.");
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -80,17 +74,19 @@ const Login = ({ onLogin, isModal = false }) => {
       </Typography>
       <TextField
         required
-        label="Nombre"
-        value={nombre}
-        onChange={(e) => setNombre(e.target.value)}
+        label="Email"
+        type="email"
+        value={correo}
+        onChange={(e) => setCorreo(e.target.value)}
         size={isModal ? "small" : "medium"}
         fullWidth
       />
       <TextField
         required
-        label="Correo"
-        value={correo}
-        onChange={(e) => setCorreo(e.target.value)}
+        label="Contraseña"
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
         size={isModal ? "small" : "medium"}
         fullWidth
       />
@@ -101,7 +97,7 @@ const Login = ({ onLogin, isModal = false }) => {
         disabled={loading}
         sx={{
           mt: 1,
-          backgroundColor: "#0d47a1",
+          backgroundColor: "#0d47a1", // Azul marino elegante
           "&:hover": {
             backgroundColor: "#1565c0"
           }
@@ -120,22 +116,14 @@ const Login = ({ onLogin, isModal = false }) => {
         </Typography>
       )}
       
-      {loading && !error && (
-        <Typography 
-          variant="body2" 
-          color="primary" 
-          align="center"
-          sx={{ mt: 1 }}
-        >
-          Cargando usuarios...
-        </Typography>
-      )}
+
       
+      {/* Botón de acceso de invitado */}
       <Button
         variant="outlined"
         onClick={() => {
-          setNombre("invitado");
           setCorreo("invitado@correo.com");
+          setPassword("invitado123");
         }}
         sx={{
           mt: 1,
