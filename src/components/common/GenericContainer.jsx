@@ -135,10 +135,22 @@ const GenericContainer = ({
     if (mainLoading) return <p>Cargando...</p>;
 
     return (
-        <Box sx={{ width: "100%" }}>
-            <Stack spacing={2}>
+        <Box sx={{ 
+            width: "100%", 
+            px: { xs: 1, sm: 2, md: 3 },
+            py: { xs: 1, sm: 2 }
+        }}>
+            <Stack spacing={{ xs: 2, md: 3 }}>
                 {/* Tabla Principal */}
-                <Typography variant="h5" align="center" gutterBottom>
+                <Typography 
+                    variant="h5" 
+                    align="center" 
+                    gutterBottom
+                    sx={{ 
+                        fontSize: { xs: '1.25rem', sm: '1.5rem', md: '2rem' },
+                        mb: { xs: 1, md: 2 }
+                    }}
+                >
                     {config.main.title}
                 </Typography>
                 
@@ -153,7 +165,16 @@ const GenericContainer = ({
                 {/* Tabla Secundaria o Modal */}
                 {config.secondary && config.secondary.type !== "modal" && (
                     <>
-                        <Typography variant="h5" align="center" gutterBottom>
+                        <Typography 
+                            variant="h6" 
+                            align="center" 
+                            gutterBottom
+                            sx={{ 
+                                fontSize: { xs: '1rem', sm: '1.25rem', md: '1.5rem' },
+                                mb: { xs: 1, md: 2 },
+                                px: { xs: 1, md: 0 }
+                            }}
+                        >
                             {getSecondaryTitle()}
                         </Typography>
                         

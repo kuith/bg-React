@@ -11,12 +11,13 @@ const TablaRow = ({ columns, row, index, labelButon, onClick} ) => {
                 <Box
                     display="flex"
                     flexDirection={{ xs: "column", md: "row" }}
-                    justifyContent="space-evenly"
-                    alignItems="center"
+                    justifyContent={{ xs: "flex-start", md: "space-evenly" }}
+                    alignItems={{ xs: "stretch", md: "center" }}
                     sx={{
-                        padding: 1,
+                        padding: { xs: 2, md: 1 },
                         borderBottom: "1px solid rgba(224, 224, 224, 1)",
                         gap: { xs: 1, md: 0 },
+                        minHeight: { xs: 'auto', md: '60px' },
                     }}
                 >
                     {columns.map((item) => (

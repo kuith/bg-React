@@ -20,14 +20,14 @@ const CompEntityTable = ({ data, onClick, tableColumns, entityName, label }) => 
     ));
 
     const totalTable = (
-        <Container>
+        <Container maxWidth={false} sx={{ px: { xs: 1, sm: 2 } }}>
             <TableContainer
                 component={Paper}
                 sx={{
                     overflowX: "auto",
                 }}
             >
-                <Table sx={{ minWidth: 650 }} aria-label={`Listado de ${entityName}`}>
+                <Table sx={{ width: '100%' }} aria-label={`Listado de ${entityName}`}>
                     <TableBody>{rows}</TableBody>
                 </Table>
             </TableContainer>
