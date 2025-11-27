@@ -26,13 +26,20 @@ import { formatDate } from "./validations";
 // Procesa las partidas para la tabla de partidas
 const processMatches = (matches) => {
     if (!Array.isArray(matches)) return [];
-    return matches.map((match) => ({
-        id: match.id,
-        fecha: formatDate(match.fecha),
-        juego: match.juego?.nombre || "Sin juego",
-        jugadores: Array.isArray(match.jugadores) ? match.jugadores.map(j => j.nombre).join(", ") : "Sin jugadores",
-        ganadores: Array.isArray(match.ganadores) ? match.ganadores.map(g => g.nombre).join(", ") : "Sin ganadores",
-    }));
+    return matches.map((match, index) => {
+        // Crear un ID único basado en los datos de la partida
+        const uniqueId = `${match.juego?.nombre || 'unknown'}_${match.jugadores?.map(j => j.nombre).join('')}_${match.ganadores?.map(g => g.nombre).join('')}`.replace(/\s/g, '');
+        
+        return {
+            id: match.id || match.match_id || match.partidaId || uniqueId, 
+            fecha: formatDate(match.fecha),
+            juego: match.juego?.nombre || "Sin juego",
+            jugadores: Array.isArray(match.jugadores) ? match.jugadores.map(j => j.nombre).join(", ") : "Sin jugadores",
+            ganadores: Array.isArray(match.ganadores) ? match.ganadores.map(g => g.nombre).join(", ") : "Sin ganadores",
+            // Guardamos los datos originales para usar en el modal
+            originalMatch: match
+        };
+    });
 };
 // Procesa los juegos para la tabla de juegos de autor
 const processGames = (games) => {

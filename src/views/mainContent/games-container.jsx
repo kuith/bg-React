@@ -1,101 +1,42 @@
 
-
-import React, { useContext, useState, useEffect } from "react";
-import Typography from "@mui/material/Typography";
-import Stack from "@mui/material/Stack";
-import Box from "@mui/material/Box";
-
+import React, { useContext } from "react";
 import { GamesContext } from "../../context/GamesContext";
-import { processGames } from "../../utils/processors";
-import GamesTable from "../../components/games/comp-games-table";
+import GenericContainer from "../../components/common/GenericContainer";
 import GameDetailCard from "../../components/games/GameDetailCard";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
+import { processGames } from "../../utils/processors";
 import { getGamesById } from "../../api/gamesService";
-
 
 const GamesContainer = () => {
     const { games, loading } = useContext(GamesContext);
-    const [selectedGame, setSelectedGame] = useState(null);
-    const [loadingGames, setLoadingGames] = useState(false);
-    const [error, setError] = useState(null);
 
-    const gamesColumns = ["Nombre", "Tipo", "Descripcion"];
-    const gamesEntity = "Juego";
-    const gamesLabel = "Detalles";
-
-    const reloadGame = async (gameId) => {
-    const game = await getGamesById(gameId);
-    setSelectedGame(game);
-    };
-
-    const onClickForDetails = async (gameId) => {
-        setLoadingGames(true);
-        setError(null);
-        try {
-            await reloadGame(gameId);
-        } catch (error) {
-            setError("No se pudieron cargar los detalles del juego.");
-            console.error("Error en onClickForDetails:", error);
-        } finally {
-            setLoadingGames(false);
+    // Configuración para GenericContainer con modal
+    const containerConfig = {
+        main: {
+            title: "Juegos",
+            entityName: "Juego",
+            label: "Detalles",
+            columns: ["Nombre", "Tipo", "Descripcion"],
+            onClick: async (gameId) => {
+                const game = await getGamesById(gameId);
+                return game;
+            }
+        },
+        secondary: {
+            type: "modal"
+        },
+        modal: {
+            title: "Detalles del juego",
+            Component: GameDetailCard,
+            entityProp: "game"
         }
     };
 
-    const handleCloseDialog = () => {
-        setSelectedGame(null);
-    };
-
-
-    if (loading) return <p>Cargando...</p>;
-
-    // Normalizar los datos para asegurar que 'descripcion' siempre está presente
-    const processedGames = processGames(games);
-
-
-    const gameDetailDialog = (
-        <Dialog open={!!selectedGame} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
-            <DialogTitle>
-                Detalles del juego
-                <IconButton
-                    aria-label="close"
-                    onClick={handleCloseDialog}
-                    sx={{ position: 'absolute', right: 8, top: 8 }}
-                >
-                    <CloseIcon />
-                </IconButton>
-            </DialogTitle>
-            <DialogContent dividers>
-                <GameDetailCard game={selectedGame} />
-            </DialogContent>
-        </Dialog>
-    );
-
     return (
-        <Box sx={{ width: "100%" }}>
-            <Stack spacing={2}>
-                <Typography variant="h5" align="center" gutterBottom>
-                    Juegos
-                </Typography>
-
-                 <GamesTable
-                    data={processedGames}
-                    onClick={(id) => onClickForDetails(id)}
-                    tableColumns={gamesColumns}
-                    entityName={gamesEntity}
-                    label={gamesLabel}
-                />
-                <Typography variant="h5" align="center" gutterBottom>
-                    Juegos de {" "}
-                    {selectedGame?.nombre || "ningún juego seleccionado"}
-                </Typography>
-
-                {gameDetailDialog}
-            </Stack>
-        </Box>
+        <GenericContainer 
+            mainData={processGames(games)}
+            mainLoading={loading}
+            config={containerConfig}
+        />
     );
 };
 
