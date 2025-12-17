@@ -51,9 +51,7 @@ const DashEntity = ({
     setOpen(true);
   };
 
-  if (!data || data.length === 0) return <p>No hay datos disponibles.</p>;
-
-  const rows = data.map(formatRow);
+  const rows = data && data.length > 0 ? data.map(formatRow) : [];
 
   return (
     <Accordion defaultExpanded>
@@ -74,22 +72,33 @@ const DashEntity = ({
               </tr>
             </thead>
             <tbody>
-              {rows.map((row, idx) => (
-                <tr key={row.id || idx}>
-                  {columns.map(col => {
-                    const key = typeof col === 'string' ? col.toLowerCase() : col.key;
-                    return (
-                      <td key={key} style={{ padding: 8 }}>{row[key]}</td>
-                    );
-                  })}
-                  {/* Celda de acciones eliminada */}
+              {rows.length > 0 ? (
+                rows.map((row, idx) => (
+                  <tr key={row.id || idx}>
+                    {columns.map(col => {
+                      const key = typeof col === 'string' ? col.toLowerCase() : col.key;
+                      return (
+                        <td key={key} style={{ padding: 8 }}>{row[key]}</td>
+                      );
+                    })}
+                    {/* Celda de acciones eliminada */}
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={columns.length} style={{ padding: 16, textAlign: 'center', fontStyle: 'italic' }}>
+                    No hay datos disponibles
+                  </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </Paper>
         <Paper sx={{ mt: 2, padding: 2 }}>
-          <NewEntityButton labelNew={`Nuevo ${entityLabel}`} onClick={handleNew} />
+          <NewEntityButton 
+            labelNew={entityLabel === "Partida" ? "Nueva Partida" : `Nuevo ${entityLabel}`} 
+            onClick={handleNew} 
+          />
         </Paper>
         <EntityDialogForm
           open={open}

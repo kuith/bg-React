@@ -25,7 +25,16 @@ const DashGames = ({
         { name: "nombre", label: "Nombre", required: true },
         { name: "descripcion", label: "Descripción", required: true },
         { name: "anioPublicacion", label: "Año", required: true, type: "number" },
-        { name: "baseExpansion", label: "JuegoBase/Expansión" },
+        { 
+            name: "baseExpansion", 
+            label: "JuegoBase/Expansión", 
+            type: "select", 
+            required: true,
+            options: [
+                { value: "base", label: "Base" },
+                { value: "expansion", label: "Expansión" }
+            ]
+        },
         { name: "juegoBase", label: "Juego Base" },
         { name: "tipo", label: "Tipo" },
         { name: "minJugadores", label: "Mínimo de Jugadores", type: "number" },
