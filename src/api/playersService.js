@@ -1,7 +1,13 @@
 import { api } from "../api/api";
+import { isLocalMode } from "../config/appConfig";
+import * as localService from "../services/playersLocalService";
 
 // Obtener el listado completo de jugadores
 export const getAllPlayers = async () => {
+    if (isLocalMode()) {
+        return await localService.getAllPlayers();
+    }
+    
     try {
         const response = await api.get("/players/");
         const data = Array.isArray(response.data) ? response.data : response;
@@ -14,6 +20,10 @@ export const getAllPlayers = async () => {
 
 // Buscar un jugador por ID
 export const getPlayerById = async (id) => {
+    if (isLocalMode()) {
+        return await localService.getPlayerById(id);
+    }
+    
     try {
         const response = await api.get(`/players/id/${id}`);
         console.log("desde servicio", response);
@@ -31,6 +41,14 @@ export const getPlayerById = async (id) => {
 
 // Buscar jugadores por nombre
 export const searchPlayersByName = async (name) => {
+    if (isLocalMode()) {
+        // Implementación local de búsqueda por nombre
+        const players = await localService.getAllPlayers();
+        return players.filter(player => 
+            player.nombre.toLowerCase().includes(name.toLowerCase())
+        );
+    }
+    
     try {
         const response = await api.get("/players/name/", {
             params: { search: name },
@@ -43,6 +61,12 @@ export const searchPlayersByName = async (name) => {
 
 // Buscar jugadores por rol
 export const searchPlayersByRol = async (rol) => {
+    if (isLocalMode()) {
+        // Implementación local de búsqueda por rol
+        const players = await localService.getAllPlayers();
+        return players.filter(player => player.rol === rol);
+    }
+    
     try {
         const response = await api.get(`/players/role/${rol}`);
         const data = Array.isArray(response.data) ? response.data : response;
@@ -54,6 +78,12 @@ export const searchPlayersByRol = async (rol) => {
 
 // Buscar jugadores por email
 export const searchPlayersByEmail = async (email) => {
+    if (isLocalMode()) {
+        // Implementación local de búsqueda por email
+        const players = await localService.getAllPlayers();
+        return players.filter(player => player.correo === email);
+    }
+    
     try {
         const response = await api.get(`/players/email/${email}`);
         return response.data;
@@ -63,6 +93,13 @@ export const searchPlayersByEmail = async (email) => {
 };
 
 export const getMatchesWonByPlayer = async (playerId) => {
+    if (isLocalMode()) {
+        // Implementación local - necesitamos importar el servicio de matches
+        const { getAllMatches } = await import("../services/matchesLocalService.js");
+        const matches = await getAllMatches();
+        return matches.filter(match => match.jugador_ganador_id === parseInt(playerId));
+    }
+    
     try {
         const response = await api.get(`/players/${playerId}/matches/won`);
         const data = Array.isArray(response.data) ? response.data : response;
@@ -73,6 +110,22 @@ export const getMatchesWonByPlayer = async (playerId) => {
 };
 
 export const getPlayersByGame = async (gameId) => {
+    if (isLocalMode()) {
+        // Implementación local - necesitamos importar el servicio de matches
+        const { getAllMatches } = await import("../services/matchesLocalService.js");
+        const matches = await getAllMatches();
+        const playerIds = new Set();
+        
+        matches
+            .filter(match => match.juego_id === parseInt(gameId))
+            .forEach(match => {
+                match.jugadores_ids.forEach(id => playerIds.add(id));
+            });
+        
+        const players = await localService.getAllPlayers();
+        return players.filter(player => playerIds.has(player.id));
+    }
+    
     try {
         const response = await api.get(`/players/games/${gameId}`);
         const data = Array.isArray(response.data) ? response.data : response;
@@ -84,6 +137,10 @@ export const getPlayersByGame = async (gameId) => {
 
 // Login de usuario
 export const loginPlayer = async (correo, password) => {
+    if (isLocalMode()) {
+        return await localService.loginPlayer(correo, password);
+    }
+    
     try {
         const response = await api.post("/players/login", { correo, password });
         return response;
@@ -93,7 +150,23 @@ export const loginPlayer = async (correo, password) => {
     }
 };
 
-export const createPlayer = (playerData) => api.post("/players/", playerData);
-export const updatePlayer = (id, playerData) =>
-    api.patch(`/players/${id}`, playerData);
-export const deletePlayer = (id) => api.del(`/players/${id}`);
+export const createPlayer = async (playerData) => {
+    if (isLocalMode()) {
+        return await localService.createPlayer(playerData);
+    }
+    return api.post("/players/", playerData);
+};
+
+export const updatePlayer = async (id, playerData) => {
+    if (isLocalMode()) {
+        return await localService.updatePlayer(id, playerData);
+    }
+    return api.patch(`/players/${id}`, playerData);
+};
+
+export const deletePlayer = async (id) => {
+    if (isLocalMode()) {
+        return await localService.deletePlayer(id);
+    }
+    return api.del(`/players/${id}`);
+};

@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import Paper from "@mui/material/Paper";
 import { GamesContext } from "../../../context/GamesContext";
 import { AuthorsContext } from "../../../context/AuthorsContext";
-import { getGamesById, createGame, deleteGames, updateGame } from "../../../api/gamesService";
+import { getGamesById, createGame, deleteGame, updateGame } from "../../../api/gamesService";
 import { ActualDate } from "../../../utils/validations";
 import DashGames from "../../dashboard/dash-games/dash-games";
 import { processGames } from "../../../utils/processors";
@@ -21,7 +21,7 @@ const DashboardGamesSection = () => {
     const onClickDeleteGame = async (gameId) => {
         console.log("Eliminar juego con ID:", gameId);
         try {
-            await deleteGames(gameId);
+            await deleteGame(gameId);
             alert("Juego eliminado con éxito");
             await fetchGames();
         } catch (error) {

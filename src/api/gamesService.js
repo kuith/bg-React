@@ -1,6 +1,12 @@
 import { api } from "../api/api";
+import { isLocalMode } from "../config/appConfig";
+import * as localService from "../services/gamesLocalService";
 
 export const getAllGames = async () => {
+    if (isLocalMode()) {
+        return await localService.getAllGames();
+    }
+    
     try {
         const response = await api.get("/games/");
         const data = Array.isArray(response.data) ? response.data : response;
@@ -11,6 +17,10 @@ export const getAllGames = async () => {
 }
 
 export const getGamesById = async (id) => {
+    if (isLocalMode()) {
+        return await localService.getGamesById(id);
+    }
+    
     try {
         const response = await api.get(`/games/id/${id}`);
         console.log("Respuesta cruda de la API:", response);
@@ -22,6 +32,13 @@ export const getGamesById = async (id) => {
 };
 
 export const getGamesByName = async (name) => {
+    if (isLocalMode()) {
+        const games = await localService.getAllGames();
+        return games.filter(game => 
+            game.titulo.toLowerCase().includes(name.toLowerCase())
+        );
+    }
+    
     try {
         const response = await api.get(`/games/name/${name}`);
         return response.data;
@@ -31,6 +48,13 @@ export const getGamesByName = async (name) => {
 };
 
 export const getGamesByYear = async (anio) => {
+    if (isLocalMode()) {
+        const games = await localService.getAllGames();
+        return games.filter(game => 
+            new Date(game.fecha_lanzamiento).getFullYear() === parseInt(anio)
+        );
+    }
+    
     try {
         const response = await api.get(`/games/year/${anio}`);
         return response.data;
@@ -40,6 +64,11 @@ export const getGamesByYear = async (anio) => {
 };
 
 export const getGamesByLocalEditorial = async (editorialLocal) => {
+    if (isLocalMode()) {
+        const games = await localService.getAllGames();
+        return games.filter(game => game.editorial === editorialLocal);
+    }
+    
     try {
         const response = await api.get(
             `/games/localEditorial/${editorialLocal}`
@@ -48,6 +77,28 @@ export const getGamesByLocalEditorial = async (editorialLocal) => {
     } catch (error) {
         console.error("Error al obtener juego por editorial local:", error);
     }
+};
+
+// Operaciones CRUD básicas
+export const createGame = async (gameData) => {
+    if (isLocalMode()) {
+        return await localService.createGame(gameData);
+    }
+    return api.post("/games/", gameData);
+};
+
+export const updateGame = async (id, gameData) => {
+    if (isLocalMode()) {
+        return await localService.updateGame(id, gameData);
+    }
+    return api.patch(`/games/${id}`, gameData);
+};
+
+export const deleteGame = async (id) => {
+    if (isLocalMode()) {
+        return await localService.deleteGame(id);
+    }
+    return api.del(`/games/${id}`);
 };
 
 export const getGamesByOriginEditorial = async (editorialMadre) => {
@@ -125,6 +176,10 @@ export const getGamesByMaxPlayers = async (maxjugadores) => {
 };
 
 export const getGamesByAuthors = async (id) => {
+    if (isLocalMode()) {
+        return await localService.getGamesByAuthors(id);
+    }
+    
     try {
         const response = await api.get(`/games/gamesByAutors/${id}`);
         return response;
@@ -199,7 +254,3 @@ export const getExpansionsWithoutAutoma = async () => {
         );
     }
 };
-
-export const createGame = (gameData) => api.post("/games/", gameData);
-export const updateGame = (id, gameData) => api.patch(`/games/${id}`, gameData);
-export const deleteGames = (id) => api.del(`/games/${id}`);

@@ -25,28 +25,8 @@ const AppContent = ({ user, onLogout }) => {
   const { loading: authorsLoading, authors } = useContext(AuthorsContext);
   const { loading: gamesLoading, games } = useContext(GamesContext);
   const { loading: matchesLoading, matches } = useContext(MatchesContext);
-  
-  const [hasInitiallyLoaded, setHasInitiallyLoaded] = useState(false);
 
   const isGlobalLoading = playersLoading || authorsLoading || gamesLoading || matchesLoading;
-
-  useEffect(() => {
-    if (!isGlobalLoading && !hasInitiallyLoaded) {
-      setHasInitiallyLoaded(true);
-      
-      const hasData = (players?.length > 0) || (authors?.length > 0) || (games?.length > 0) || (matches?.length > 0);
-      
-      const alreadyReloaded = sessionStorage.getItem('bgAppReloaded');
-      
-      if (!hasData && !alreadyReloaded) {
-        sessionStorage.setItem('bgAppReloaded', 'true');
-        
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
-      }
-    }
-  }, [isGlobalLoading, hasInitiallyLoaded, players, authors, games, matches]);
 
   if (isGlobalLoading) {
     return (

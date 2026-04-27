@@ -46,14 +46,14 @@ const processGames = (games) => {
     if (!Array.isArray(games)) return [];
     return games.map((game, index) => {
         // Si no hay ID, crear uno único basado en los datos del juego
-        const uniqueId = game.id || `${game.nombre || 'unknown'}_${game.tipo || 'tipo'}_${index}`.replace(/\s/g, '');
+        const uniqueId = game.id || `${game.titulo || game.nombre || 'unknown'}_${game.genero || game.tipo || 'genero'}_${index}`.replace(/\s/g, '');
         
         return {
             id: uniqueId,
-            nombre: game.nombre,
-            tipo: game.tipo || game.type || "",
-            descripcion: game.descripcion || game.description || "",
-            anio_publicacion: game.anioPublicacion || 'No disponible',
+            nombre: game.titulo || game.nombre || 'Sin nombre',
+            tipo: game.genero || game.tipo || game.type || 'Sin género',
+            descripcion: game.descripcion || game.description || 'Sin descripción',
+            anio_publicacion: game.anioPublicacion || game.fecha_lanzamiento || 'No disponible',
             // Guardamos los datos originales para usar en el modal
             originalGame: game
         };

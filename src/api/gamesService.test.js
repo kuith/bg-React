@@ -21,7 +21,7 @@ import {
     getExpansionsWithoutAutoma,
     createGame,
     updateGame,
-    deleteGames,
+    deleteGame,
 } from "./gamesService";
 import { api } from "../api/api";
 
@@ -480,10 +480,10 @@ describe("gamesService", () => {
         expect(api.put).toHaveBeenCalledWith('/games/1', mockGame);
     });
 
-    test('deleteGames debe eliminar un juego por ID', async () => {
+    test('deleteGame debe eliminar un juego por ID', async () => {
         api.del.mockResolvedValue({});
 
-        await deleteGames(1);
+        await deleteGame(1);
         expect(api.del).toHaveBeenCalledWith('/games/1');
     });
 
